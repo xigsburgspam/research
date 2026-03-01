@@ -338,23 +338,38 @@
         const teamGrid = document.getElementById('teamGrid');
         TEAM_MEMBERS.forEach((member, index) => {
             const card = document.createElement('div');
-            card.className = 'glass-card p-6 rounded-3xl card-hover animate-reveal';
+            card.className = 'glass-card p-8 rounded-[2rem] card-hover animate-reveal flex flex-col h-full';
             card.style.transitionDelay = `${index * 0.1}s`;
             
             const fbLink = member.fb ? `
-                <a href="${member.fb}" target="_blank" class="magnetic p-1.5 glass rounded-full hover:bg-blue-500/20 transition-all text-stone-600 dark:text-stone-300 hover:text-blue-600 dark:hover:text-blue-400">
+                <a href="${member.fb}" target="_blank" class="magnetic p-1.5 glass rounded-full hover:bg-blue-500/20 transition-all text-stone-600 dark:text-stone-300 hover:text-blue-600 dark:hover:text-blue-400 shrink-0">
                     <i data-lucide="facebook" size="14"></i>
                 </a>
             ` : '';
 
             card.innerHTML = `
-                <div class="flex flex-col items-center text-center">
-                    <div class="flex items-center gap-2 mb-1">
-                        <h3 class="font-bold text-lg">${member.name}</h3>
+                <div class="flex flex-col items-center text-center h-full justify-center">
+                    <!-- Name & Social Group -->
+                    <div class="flex items-center justify-center gap-2 mb-2 min-h-[3.5rem]">
+                        <h3 class="font-bold text-xl leading-tight text-stone-900 dark:text-white">${member.name}</h3>
                         ${fbLink}
                     </div>
-                    ${member.subtitle ? `<p class="text-xs font-bold text-blue-600 dark:text-blue-400 mb-1 uppercase tracking-widest">${member.subtitle}</p>` : ''}
-                    <p class="text-stone-500 dark:text-stone-400 text-sm">${member.role}</p>
+                    
+                    <!-- Subtitle Area (Reserved space for alignment) -->
+                    <div class="h-6 flex items-center justify-center mb-2">
+                        ${member.subtitle ? `
+                            <span class="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.25em] bg-blue-500/10 px-3 py-1 rounded-full">
+                                ${member.subtitle}
+                            </span>
+                        ` : ''}
+                    </div>
+
+                    <!-- Role -->
+                    <div class="border-t border-stone-200 dark:border-stone-800 pt-4 w-full">
+                        <p class="text-stone-500 dark:text-stone-400 text-sm font-semibold tracking-wide uppercase">
+                            ${member.role}
+                        </p>
+                    </div>
                 </div>
             `;
             teamGrid.appendChild(card);
