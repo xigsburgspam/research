@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Team Xiro Gravity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        .animate-reveal { opacity: 0; }
+        .animate-reveal.visible { animation: reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        .shimmer-bg {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        
+        .card-hover { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card-hover:hover { 
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 40px 80px -10px rgba(0,0,0,0.25);
+        }
+        .dark .card-hover:hover {
+            box-shadow: 0 40px 80px -10px rgba(0,0,0,0.8);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass {
+            background: rgba(28, 25, 23, 0.6);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.12);
+        }
+        .dark .glass-card {
+            background: rgba(28, 25, 23, 0.6);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+        }
+
+        #cursor {
+            width: 12px;
+            height: 12px;
+            background: #1c1917;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease-out, background 0.3s ease, width 0.3s ease, height 0.3s ease;
+            mix-blend-mode: difference;
+        }
+        .dark #cursor { background: #fafaf9; }
+        #cursor.hover {
+            transform: scale(2.5);
+            background: rgba(255,255,255,0.2);
+            mix-blend-mode: normal;
+            backdrop-filter: blur(4px);
+        }
+
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-effect 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes ripple-effect {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        #scrollProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #a8a29e, #1c1917, #a8a29e);
+            background-size: 200% 100%;
+            animation: shimmer 2s linear infinite;
+            z-index: 100;
+            width: 0%;
+            transition: width 0.1s ease-out;
+        }
+        .dark #scrollProgress {
+            background: linear-gradient(to right, #44403c, #fafaf9, #44403c);
+        }
+
+        .magnetic {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        #bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(28, 25, 23, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+        .dark #bg-glow {
+            background: radial-gradient(circle, rgba(250, 250, 249, 0.03) 0%, transparent 70%);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { 
+            background: #d6d3d1; 
+            border-radius: 10px;
+        }
+        .dark ::-webkit-scrollbar-thumb { background: #44403c; }
+
+        .reveal-delay-1 { animation-delay: 0.15s; }
+        .reveal-delay-2 { animation-delay: 0.3s; }
+        .reveal-delay-3 { animation-delay: 0.45s; }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-50 min-h-screen transition-colors duration-700 selection:bg-stone-900 selection:text-white dark:selection:bg-white dark:selection:text-stone-900 cursor-none">
+    <div id="cursor"></div>
+    <div id="bg-glow"></div>
+    <div id="scrollProgress"></div>
+    
+    <!-- Animated Background Elements -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-200/30 dark:bg-blue-900/10 rounded-full blur-[150px] animate-pulse-glow"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-purple-200/30 dark:bg-purple-900/10 rounded-full blur-[150px] animate-pulse-glow" style="animation-delay: 3s"></div>
+        <div class="absolute top-[20%] right-[10%] w-[40%] h-[40%] bg-indigo-100/20 dark:bg-indigo-900/5 rounded-full blur-[120px] animate-pulse-glow" style="animation-delay: 1.5s"></div>
+        <div class="absolute inset-0 bg-grid text-stone-300/20 dark:text-stone-800/10 opacity-40"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="bg-white/70 dark:bg-stone-950/70 glass border-b border-stone-200 dark:border-stone-800 sticky top-0 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer group" onclick="window.location.href='/'">
+                <span class="font-bold text-xl tracking-tighter uppercase italic group-hover:tracking-normal transition-all duration-500">Team Xiro Gravity</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="/" class="px-5 py-2 glass rounded-xl text-sm font-bold uppercase tracking-widest hover:scale-105 transition-all active:scale-95 text-stone-600 dark:text-stone-100">Home</a>
+                <button id="themeToggle" class="p-3 rounded-2xl glass transition-all duration-300 text-stone-600 dark:text-stone-100 hover:scale-110 active:scale-90">
+                    <i data-lucide="sun" class="hidden dark:block" size="20"></i>
+                    <i data-lucide="moon" class="block dark:hidden" size="20"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+        <div class="animate-reveal opacity-0">
+            <h1 class="text-5xl md:text-7xl font-serif font-bold mb-6 tracking-tighter text-stone-900 dark:text-white">
+                About <span class="italic text-stone-400 dark:text-stone-600">Team Xiro Gravity</span>
+            </h1>
+            <p class="text-stone-500 dark:text-stone-400 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-light">
+                Student-driven innovation from the Aviation and Aerospace University of Bangladesh.
+            </p>
+        </div>
+    </header>
+
+    <!-- Content Section -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
+            <div class="glass-card p-10 rounded-[2.5rem] animate-reveal opacity-0 reveal-delay-1">
+                <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+                    <i data-lucide="rocket" class="text-stone-900 dark:text-white"></i>
+                    Our Mission
+                </h2>
+                <p class="text-stone-600 dark:text-stone-300 leading-relaxed mb-6 text-lg">
+                    Team Xiro Gravity is a passionate student-driven team from the Aviation and Aerospace University of Bangladesh (Batch 2026), dedicated to advancing knowledge and innovation in the fields of aeronautics and astronautics, to rise beyond limits and touch the sky. We are driven by curiosity, innovation, and the fearless pursuit of aerospace excellence.
+                </p>
+                <p class="text-stone-600 dark:text-stone-300 leading-relaxed text-lg">
+                    We believe the future belongs to those who dare to explore. In an era of rapid aeronautical and astronautical revolutions, we stand committed to learning, building, and pushing boundaries. From the science of flight to the complexity of air defense systems, we transform knowledge into action and ideas into reality.
+                </p>
+            </div>
+            
+            <div class="glass-card p-10 rounded-[2.5rem] animate-reveal opacity-0 reveal-delay-2 flex flex-col justify-center">
+                <blockquote class="text-2xl md:text-3xl font-serif italic text-stone-800 dark:text-stone-200 leading-snug mb-6">
+                    "For us, aerospace is not just a field of study — it is a passion, a responsibility, and a vision for the future."
+                </blockquote>
+                <div class="h-1 w-20 bg-stone-900 dark:bg-white rounded-full"></div>
+            </div>
+        </div>
+
+        <!-- Team Section -->
+        <div class="animate-reveal opacity-0 reveal-delay-3">
+            <h2 class="text-4xl font-bold mb-12 text-center">The Team</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="teamGrid">
+                <!-- Team members will be injected here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-stone-200 dark:border-stone-800 py-12 bg-white dark:bg-stone-950 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-stone-400 text-sm font-medium tracking-wide uppercase">© 2026 Team Xiro Gravity</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button id="backToTop" class="fixed bottom-8 right-8 p-4 glass text-stone-900 dark:text-white rounded-2xl shadow-2xl opacity-0 translate-y-10 pointer-events-none transition-all duration-500 z-50 hover:scale-110 active:scale-95">
+        <i data-lucide="arrow-up" size="24"></i>
+    </button>
+
+    <script>
+        const TEAM_MEMBERS = [
+            { name: "Talha Jubayer", role: "AME Aerospace", fb: "https://www.facebook.com/xigsburg", subtitle: "Team Lead" },
+            { name: "Fahad Al Nahian", role: "AE Avionics", fb: "https://www.facebook.com/profile.php?id=100066013230278" },
+            { name: "Sahran Al Munabbir", role: "AME Aerospace", fb: "https://www.facebook.com/sahran1234" },
+            { name: "Abdur Rahman Noywn", role: "AE Aerospace", fb: "https://www.facebook.com/abdurrahmannaywn" },
+            { name: "Mohammad Labib Mahboob", role: "AE Aerospace", fb: "https://www.facebook.com/mohammad.labib.mahboob" },
+            { name: "Hasan Parvej Aurko", role: "AE Aerospace", fb: "" },
+            { name: "Nafiz Rayhan", role: "AME Avionics", fb: "https://www.facebook.com/profile.php?id=100068947070150" },
+            { name: "Mohammod Tashik Sadman", role: "AME Aerospace", fb: "https://www.facebook.com/tashik.sadman" }
+        ];
+
+        // Theme Management
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        if (currentTheme === 'dark') html.classList.add('dark');
+        else html.classList.remove('dark');
+
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            lucide.createIcons();
+        });
+
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        const bgGlow = document.getElementById('bg-glow');
+        document.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            cursor.style.left = clientX + 'px';
+            cursor.style.top = clientY + 'px';
+            bgGlow.style.left = clientX + 'px';
+            bgGlow.style.top = clientY + 'px';
+        });
+
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('.card-hover')) {
+                cursor.classList.add('hover');
+            }
+        });
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('.card-hover')) {
+                cursor.classList.remove('hover');
+            }
+        });
+
+        // Click Ripple
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            document.body.appendChild(ripple);
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            ripple.addEventListener('animationend', () => ripple.remove());
+        });
+
+        // Scroll Progress & Reveal
+        const backToTop = document.getElementById('backToTop');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("scrollProgress").style.width = scrolled + "%";
+            if (winScroll > 500) backToTop.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+            else backToTop.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+        });
+
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        // Render Team
+        const teamGrid = document.getElementById('teamGrid');
+        TEAM_MEMBERS.forEach((member, index) => {
+            const card = document.createElement('div');
+            card.className = 'glass-card p-6 rounded-3xl card-hover animate-reveal';
+            card.style.transitionDelay = `${index * 0.1}s`;
+            
+            const fbLink = member.fb ? `
+                <a href="${member.fb}" target="_blank" class="magnetic p-1.5 glass rounded-full hover:bg-blue-500/20 transition-all text-stone-600 dark:text-stone-300 hover:text-blue-600 dark:hover:text-blue-400">
+                    <i data-lucide="facebook" size="14"></i>
+                </a>
+            ` : '';
+
+            card.innerHTML = `
+                <div class="flex flex-col items-center text-center">
+                    <div class="flex items-center gap-2 mb-1">
+                        <h3 class="font-bold text-lg">${member.name}</h3>
+                        ${fbLink}
+                    </div>
+                    ${member.subtitle ? `<p class="text-xs font-bold text-blue-600 dark:text-blue-400 mb-1 uppercase tracking-widest">${member.subtitle}</p>` : ''}
+                    <p class="text-stone-500 dark:text-stone-400 text-sm">${member.role}</p>
+                </div>
+            `;
+            teamGrid.appendChild(card);
+            revealObserver.observe(card);
+        });
+
+        document.querySelectorAll('.animate-reveal').forEach(el => revealObserver.observe(el));
+        lucide.createIcons();
+    </script>
+</body>
+</html>

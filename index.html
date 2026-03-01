@@ -23,30 +23,187 @@
         }
     </script>
     <style>
-        .card-hover:hover { transform: translateY(-4px); }
-        .dark body { background-color: #0c0a09; color: #f5f5f4; }
-        .dark nav { background-color: rgba(12, 10, 9, 0.8); border-color: #292524; }
-        .dark .bg-white { background-color: #1c1917; }
-        .dark .border-stone-200 { border-color: #292524; }
-        .dark .text-stone-900 { color: #f5f5f4; }
-        .dark .text-stone-600 { color: #a8a29e; }
-        .dark .text-stone-500 { color: #78716c; }
-        .dark .text-stone-400 { color: #57534e; }
-        .dark .bg-stone-50 { background-color: #0c0a09; }
-        .dark .bg-stone-100 { background-color: #292524; }
-        .dark input { background-color: #1c1917; border-color: #292524; color: #f5f5f4; }
-        .dark footer { background-color: #0c0a09; border-color: #292524; }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        @keyframes rotate-border {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .animate-reveal { opacity: 0; }
+        .animate-reveal.visible { animation: reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        .shimmer-bg {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        
+        .card-hover { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card-hover:hover { 
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 40px 80px -10px rgba(0,0,0,0.25);
+        }
+        .dark .card-hover:hover {
+            box-shadow: 0 40px 80px -10px rgba(0,0,0,0.8);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass {
+            background: rgba(28, 25, 23, 0.6);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.12);
+        }
+        .dark .glass-card {
+            background: rgba(28, 25, 23, 0.6);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+        }
+
+        /* Custom Cursor */
+        #cursor {
+            width: 12px;
+            height: 12px;
+            background: #1c1917;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease-out, background 0.3s ease, width 0.3s ease, height 0.3s ease;
+            mix-blend-mode: difference;
+        }
+        .dark #cursor { background: #fafaf9; }
+        #cursor.hover {
+            transform: scale(2.5);
+            background: rgba(255,255,255,0.2);
+            mix-blend-mode: normal;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Click Ripple */
+        .ripple {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-effect 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes ripple-effect {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* Scroll Progress */
+        #scrollProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #a8a29e, #1c1917, #a8a29e);
+            background-size: 200% 100%;
+            animation: shimmer 2s linear infinite;
+            z-index: 100;
+            width: 0%;
+            transition: width 0.1s ease-out;
+        }
+        .dark #scrollProgress {
+            background: linear-gradient(to right, #44403c, #fafaf9, #44403c);
+        }
+
+        /* Magnetic Button */
+        .magnetic {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Mouse Reactive Background */
+        #bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(28, 25, 23, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+        .dark #bg-glow {
+            background: radial-gradient(circle, rgba(250, 250, 249, 0.03) 0%, transparent 70%);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { 
+            background: #d6d3d1; 
+            border-radius: 10px;
+        }
+        .dark ::-webkit-scrollbar-thumb { background: #44403c; }
+
+        .reveal-delay-1 { animation-delay: 0.15s; }
+        .reveal-delay-2 { animation-delay: 0.3s; }
+        .reveal-delay-3 { animation-delay: 0.45s; }
     </style>
 </head>
-<body class="bg-stone-50 text-stone-900 min-h-screen transition-colors duration-300">
+<body class="bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-50 min-h-screen transition-colors duration-700 selection:bg-stone-900 selection:text-white dark:selection:bg-white dark:selection:text-stone-900 cursor-none">
+    <div id="cursor"></div>
+    <div id="bg-glow"></div>
+    <div id="scrollProgress"></div>
+    
+    <!-- Animated Background Elements -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-200/30 dark:bg-blue-900/10 rounded-full blur-[150px] animate-pulse-glow"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-purple-200/30 dark:bg-purple-900/10 rounded-full blur-[150px] animate-pulse-glow" style="animation-delay: 3s"></div>
+        <div class="absolute top-[20%] right-[10%] w-[40%] h-[40%] bg-indigo-100/20 dark:bg-indigo-900/5 rounded-full blur-[120px] animate-pulse-glow" style="animation-delay: 1.5s"></div>
+        <div class="absolute inset-0 bg-grid text-stone-300/20 dark:text-stone-800/10 opacity-40"></div>
+    </div>
+
     <!-- Navbar -->
-    <nav class="bg-white/80 backdrop-blur-md border-b border-stone-200 sticky top-0 z-50 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.reload()">
-                <span class="font-bold text-xl tracking-tighter uppercase italic">Team Xiro Gravity</span>
+    <nav class="bg-white/70 dark:bg-stone-950/70 glass border-b border-stone-200 dark:border-stone-800 sticky top-0 z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer group" onclick="window.location.reload()">
+                <span class="font-bold text-xl tracking-tighter uppercase italic group-hover:tracking-normal transition-all duration-500">Team Xiro Gravity</span>
             </div>
             <div class="flex items-center gap-4">
-                <button id="themeToggle" class="p-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors text-stone-600 dark:text-stone-400">
+                <a href="/about.html" class="px-5 py-2 glass rounded-xl text-sm font-bold uppercase tracking-widest hover:scale-105 transition-all active:scale-95 text-stone-600 dark:text-stone-100">About</a>
+                <button id="themeToggle" class="p-3 rounded-2xl glass transition-all duration-300 text-stone-600 dark:text-stone-100 hover:scale-110 active:scale-90">
                     <i data-lucide="sun" class="hidden dark:block" size="20"></i>
                     <i data-lucide="moon" class="block dark:hidden" size="20"></i>
                 </button>
@@ -55,49 +212,61 @@
     </nav>
 
     <!-- Hero -->
-    <header class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center">
-        <div class="inline-block mb-4 px-4 py-1.5 bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900 rounded-full text-[10px] font-bold uppercase tracking-[0.2em]">
-            Levitate Beyond Infinity
+    <header class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
+        <div class="animate-reveal opacity-0">
+            <div class="relative inline-flex p-[1px] mb-8 rounded-full overflow-hidden group">
+                <!-- Rotating Neon Background -->
+                <div class="absolute inset-[-200%] bg-[conic-gradient(from_0deg,transparent_0%,#3b82f6_25%,transparent_50%,#3b82f6_75%,transparent_100%)] animate-[rotate-border_3s_linear_infinite]"></div>
+                
+                <!-- Inner Content -->
+                <div class="relative inline-flex items-center gap-2 px-5 py-2 glass text-stone-900 dark:text-white rounded-full text-[10px] font-bold uppercase tracking-[0.3em] shadow-2xl overflow-hidden">
+                    <div class="absolute inset-0 shimmer-bg opacity-20"></div>
+                    <span class="relative z-10">Levitate Beyond Infinity</span>
+                </div>
+            </div>
         </div>
-        <h1 class="text-5xl md:text-8xl font-serif font-bold mb-8 tracking-tighter leading-none">
-            Team Xiro <span class="italic text-stone-400 dark:text-stone-600">Gravity</span>
+        
+        <h1 class="animate-reveal opacity-0 reveal-delay-1 text-6xl md:text-9xl font-serif font-bold mb-10 tracking-tighter leading-[0.85] text-stone-900 dark:text-white">
+            Team Xiro <br/>
+            <span class="italic text-stone-300 dark:text-stone-600 transition-colors duration-700 hover:text-stone-400 dark:hover:text-stone-500 cursor-default">Gravity</span>
         </h1>
-        <p class="text-stone-500 dark:text-stone-400 text-lg md:text-2xl max-w-3xl mx-auto leading-relaxed font-light">
-            An elite repository of pioneering research and technical breakthroughs, dedicated to pushing the boundaries of human knowledge and technological evolution.
+        
+        <p class="animate-reveal opacity-0 reveal-delay-2 text-stone-500 dark:text-stone-400 text-xl md:text-3xl max-w-3xl mx-auto leading-relaxed font-light tracking-tight">
+            An elite repository of pioneering research and technical breakthroughs, dedicated to pushing the boundaries of human knowledge.
         </p>
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
         <!-- Search & Filter -->
-        <div class="flex flex-col md:flex-row gap-4 mb-12">
-            <div class="relative flex-1">
-                <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" size="20"></i>
+        <div class="animate-reveal opacity-0 reveal-delay-3 flex flex-col md:flex-row gap-6 mb-20">
+            <div class="relative flex-1 group">
+                <i data-lucide="search" class="absolute left-5 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-stone-900 dark:group-focus-within:text-white transition-colors" size="22"></i>
                 <input 
                     type="text" 
                     id="searchInput"
                     placeholder="Search the archives..."
-                    class="w-full pl-12 pr-4 py-4 bg-white border border-stone-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-stone-900/5 focus:border-stone-900 transition-all shadow-sm"
+                    class="w-full pl-14 pr-6 py-5 glass rounded-3xl focus:outline-none focus:ring-8 focus:ring-stone-900/5 dark:focus:ring-white/5 focus:border-stone-900 dark:focus:border-white transition-all shadow-2xl shadow-stone-900/10 dark:shadow-black/40 text-lg dark:text-white"
                 >
             </div>
             <div class="relative">
                 <select 
                     id="sortSelect"
-                    class="appearance-none pl-6 pr-12 py-4 bg-white border border-stone-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-stone-900/5 focus:border-stone-900 transition-all shadow-sm font-medium cursor-pointer w-full md:w-64"
+                    class="appearance-none pl-8 pr-14 py-5 glass rounded-3xl focus:outline-none focus:ring-8 focus:ring-stone-900/5 dark:focus:ring-white/5 focus:border-stone-900 dark:focus:border-white transition-all shadow-2xl shadow-stone-900/10 dark:shadow-black/40 font-bold cursor-pointer w-full md:w-72 text-stone-600 dark:text-stone-100"
                 >
-                    <option value="latest">Latest First</option>
-                    <option value="oldest">Oldest First</option>
-                    <option value="subject-az">Subject (A-Z)</option>
-                    <option value="subject-za">Subject (Z-A)</option>
-                    <option value="author-az">Author (A-Z)</option>
-                    <option value="author-za">Author (Z-A)</option>
+                    <option value="latest">LATEST RECORDS</option>
+                    <option value="oldest">ARCHIVAL ORDER</option>
+                    <option value="subject-az">SUBJECT A-Z</option>
+                    <option value="subject-za">SUBJECT Z-A</option>
+                    <option value="author-az">AUTHOR A-Z</option>
+                    <option value="author-za">AUTHOR Z-A</option>
                 </select>
-                <i data-lucide="chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" size="18"></i>
+                <i data-lucide="chevron-down" class="absolute right-6 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" size="20"></i>
             </div>
         </div>
 
         <!-- Submissions Grid -->
-        <div id="submissionsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div id="submissionsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             <!-- Cards will be injected here -->
         </div>
 
@@ -109,11 +278,16 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-stone-200 py-12 bg-white transition-colors duration-300">
+    <footer class="border-t border-stone-200 dark:border-stone-800 py-12 bg-white dark:bg-stone-950 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 text-center">
             <p class="text-stone-400 text-sm font-medium tracking-wide uppercase">© 2026 Team Xiro Gravity</p>
         </div>
     </footer>
+
+    <!-- Back to Top -->
+    <button id="backToTop" class="fixed bottom-8 right-8 p-4 glass text-stone-900 dark:text-white rounded-2xl shadow-2xl opacity-0 translate-y-10 pointer-events-none transition-all duration-500 z-50 hover:scale-110 active:scale-95">
+        <i data-lucide="arrow-up" size="24"></i>
+    </button>
 
     <script>
         // EMBEDDED RESEARCH DATA (Directly managed by Gemini)
@@ -142,14 +316,106 @@
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
         
-        const currentTheme = localStorage.getItem('theme') || 'light';
+        const currentTheme = localStorage.getItem('theme') || 'dark';
         if (currentTheme === 'dark') html.classList.add('dark');
+        else html.classList.remove('dark');
 
         themeToggle.addEventListener('click', () => {
             html.classList.toggle('dark');
             const theme = html.classList.contains('dark') ? 'dark' : 'light';
             localStorage.setItem('theme', theme);
             lucide.createIcons();
+        });
+
+        // Custom Cursor & Mouse Reactive Background
+        const cursor = document.getElementById('cursor');
+        const bgGlow = document.getElementById('bg-glow');
+        
+        document.addEventListener('mousemove', (e) => {
+            const { clientX, clientY } = e;
+            
+            // Cursor movement
+            cursor.style.left = clientX + 'px';
+            cursor.style.top = clientY + 'px';
+            
+            // Background glow movement
+            bgGlow.style.left = clientX + 'px';
+            bgGlow.style.top = clientY + 'px';
+            
+            // Magnetic effect logic
+            const magneticElements = document.querySelectorAll('.magnetic');
+            magneticElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const x = clientX - rect.left - rect.width / 2;
+                const y = clientY - rect.top - rect.height / 2;
+                const distance = Math.sqrt(x*x + y*y);
+                
+                if (distance < 100) {
+                    el.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                } else {
+                    el.style.transform = `translate(0, 0)`;
+                }
+            });
+        });
+
+        // Hover states for cursor
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('.card-hover') || e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+                cursor.classList.add('hover');
+            }
+        });
+        
+        document.addEventListener('mouseout', (e) => {
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('.card-hover') || e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
+                cursor.classList.remove('hover');
+            }
+        });
+
+        // Click Ripple Effect
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            document.body.appendChild(ripple);
+            
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            
+            ripple.addEventListener('animationend', () => {
+                ripple.remove();
+            });
+            
+            // Bounce effect on click for the cursor
+            cursor.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                cursor.style.transform = cursor.classList.contains('hover') ? 'scale(4)' : 'scale(1)';
+            }, 100);
+        });
+
+        // Scroll Progress & Back to Top & Reveal on Scroll
+        const backToTop = document.getElementById('backToTop');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("scrollProgress").style.width = scrolled + "%";
+
+            if (winScroll > 500) {
+                backToTop.classList.remove('opacity-0', 'translate-y-10', 'pointer-events-none');
+            } else {
+                backToTop.classList.add('opacity-0', 'translate-y-10', 'pointer-events-none');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
         // Initialize Lucide icons
@@ -164,6 +430,8 @@
         // Initialize Data
         function initSubmissions() {
             try {
+                // Apply reveal observer to header elements
+                document.querySelectorAll('.animate-reveal').forEach(el => revealObserver.observe(el));
                 applyFilters();
             } catch (error) {
                 console.error('Error initializing submissions:', error);
@@ -218,13 +486,14 @@
                 emptyState.classList.add('hidden');
             }
 
-            data.forEach(item => {
+            data.forEach((item, index) => {
                 const card = document.createElement('div');
-                card.className = 'bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-[2rem] p-8 transition-all duration-300 card-hover hover:shadow-2xl hover:shadow-stone-200/50 dark:hover:shadow-stone-900/50 group flex flex-col h-full';
+                card.className = 'glass-card rounded-[2rem] p-8 transition-all duration-300 card-hover hover:shadow-2xl group flex flex-col h-full animate-reveal';
+                card.style.transitionDelay = `${(index % 3) * 0.1}s`;
                 
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-6">
-                        <span class="bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest">
+                        <span class="glass text-stone-600 dark:text-stone-300 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest">
                             ${item.status || 'Active'}
                         </span>
                         <span class="text-stone-400 dark:text-stone-500 text-xs font-mono">${item.date}</span>
@@ -245,12 +514,13 @@
                         </div>
                     </div>
 
-                    <a href="${item.pdfLink}" target="_blank" class="flex items-center justify-center gap-2 w-full py-4 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-2xl hover:bg-stone-800 dark:hover:bg-white transition-all font-bold shadow-lg shadow-stone-900/10 dark:shadow-none">
+                    <a href="${item.pdfLink}" target="_blank" class="magnetic glass flex items-center justify-center gap-2 w-full py-4 text-stone-900 dark:text-white rounded-2xl hover:bg-white/20 dark:hover:bg-white/10 transition-all font-bold shadow-xl shadow-stone-900/10 dark:shadow-black/20">
                         <i data-lucide="external-link" size="18"></i>
                         Access Record
                     </a>
                 `;
                 grid.appendChild(card);
+                revealObserver.observe(card);
             });
             
             lucide.createIcons();
