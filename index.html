@@ -116,6 +116,28 @@
     </footer>
 
     <script>
+        // EMBEDDED RESEARCH DATA (Directly managed by Gemini)
+        const SUBMISSIONS_DATA = [
+            {
+                "id": "1",
+                "name": "Dr. Sarah Chen",
+                "email": "sarah.chen@university.edu",
+                "subject": "Quantum Computing in Biological Systems",
+                "pdfLink": "https://example.com/research/quantum-bio.pdf",
+                "date": "2024-02-28",
+                "status": "Active"
+            },
+            {
+                "id": "2",
+                "name": "Marcus Thorne",
+                "email": "m.thorne@lab.org",
+                "subject": "Neural Network Optimization for Edge Devices",
+                "pdfLink": "https://example.com/research/edge-nn.pdf",
+                "date": "2024-02-25",
+                "status": "Active"
+            }
+        ];
+
         // Theme Management
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
@@ -133,28 +155,21 @@
         // Initialize Lucide icons
         lucide.createIcons();
 
-        let submissions = [];
+        let submissions = SUBMISSIONS_DATA;
         const grid = document.getElementById('submissionsGrid');
         const searchInput = document.getElementById('searchInput');
         const sortSelect = document.getElementById('sortSelect');
         const emptyState = document.getElementById('emptyState');
 
-        // Fetch Data
-        async function loadSubmissions() {
+        // Initialize Data
+        function initSubmissions() {
             try {
-                // Use a cache-busting query parameter to ensure we get fresh data
-                const response = await fetch(`/api/submissions?t=${Date.now()}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                submissions = await response.json();
                 applyFilters();
             } catch (error) {
-                console.error('Error loading submissions:', error);
+                console.error('Error initializing submissions:', error);
                 grid.innerHTML = `<div class="col-span-full text-center p-12 bg-red-50 dark:bg-red-900/10 rounded-3xl border border-red-100 dark:border-red-900/20">
-                    <p class="text-red-600 dark:text-red-400 font-medium mb-2">Failed to load submissions.</p>
+                    <p class="text-red-600 dark:text-red-400 font-medium mb-2">System Initialization Error</p>
                     <p class="text-red-400 dark:text-red-500 text-sm">${error.message}</p>
-                    <button onclick="loadSubmissions()" class="mt-4 px-6 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors text-sm font-bold">Retry Connection</button>
                 </div>`;
             }
         }
@@ -245,7 +260,7 @@
         searchInput.addEventListener('input', applyFilters);
         sortSelect.addEventListener('change', applyFilters);
 
-        loadSubmissions();
+        initSubmissions();
     </script>
 </body>
 </html>
