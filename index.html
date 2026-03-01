@@ -80,11 +80,19 @@
                     class="w-full pl-12 pr-4 py-4 bg-white border border-stone-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-stone-900/5 focus:border-stone-900 transition-all shadow-sm"
                 >
             </div>
-            <div class="flex gap-2">
-                <button class="flex items-center gap-2 px-6 py-4 bg-white border border-stone-200 rounded-2xl hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors shadow-sm font-medium">
-                    <i data-lucide="filter" size="18"></i>
-                    <span>Latest</span>
-                </button>
+            <div class="relative">
+                <select 
+                    id="sortSelect"
+                    class="appearance-none pl-6 pr-12 py-4 bg-white border border-stone-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-stone-900/5 focus:border-stone-900 transition-all shadow-sm font-medium cursor-pointer w-full md:w-64"
+                >
+                    <option value="latest">Latest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="subject-az">Subject (A-Z)</option>
+                    <option value="subject-za">Subject (Z-A)</option>
+                    <option value="author-az">Author (A-Z)</option>
+                    <option value="author-za">Author (Z-A)</option>
+                </select>
+                <i data-lucide="chevron-down" class="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" size="18"></i>
             </div>
         </div>
 
@@ -128,24 +136,60 @@
         let submissions = [];
         const grid = document.getElementById('submissionsGrid');
         const searchInput = document.getElementById('searchInput');
+        const sortSelect = document.getElementById('sortSelect');
         const emptyState = document.getElementById('emptyState');
 
         // Fetch Data
         async function loadSubmissions() {
             try {
-                const response = await fetch('/api/submissions');
+                // Use a cache-busting query parameter to ensure we get fresh data
+                const response = await fetch(`/api/submissions?t=${Date.now()}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 submissions = await response.json();
-                renderSubmissions(submissions);
+                applyFilters();
             } catch (error) {
                 console.error('Error loading submissions:', error);
                 grid.innerHTML = `<div class="col-span-full text-center p-12 bg-red-50 dark:bg-red-900/10 rounded-3xl border border-red-100 dark:border-red-900/20">
                     <p class="text-red-600 dark:text-red-400 font-medium mb-2">Failed to load submissions.</p>
                     <p class="text-red-400 dark:text-red-500 text-sm">${error.message}</p>
+                    <button onclick="loadSubmissions()" class="mt-4 px-6 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-colors text-sm font-bold">Retry Connection</button>
                 </div>`;
             }
+        }
+
+        function applyFilters() {
+            const term = searchInput.value.toLowerCase();
+            const sortBy = sortSelect.value;
+
+            let filtered = submissions.filter(s => 
+                s.name.toLowerCase().includes(term) || 
+                s.subject.toLowerCase().includes(term) ||
+                s.date.includes(term)
+            );
+
+            // Sorting logic
+            filtered.sort((a, b) => {
+                switch (sortBy) {
+                    case 'latest':
+                        return new Date(b.date) - new Date(a.date);
+                    case 'oldest':
+                        return new Date(a.date) - new Date(b.date);
+                    case 'subject-az':
+                        return a.subject.localeCompare(b.subject);
+                    case 'subject-za':
+                        return b.subject.localeCompare(a.subject);
+                    case 'author-az':
+                        return a.name.localeCompare(b.name);
+                    case 'author-za':
+                        return b.name.localeCompare(a.name);
+                    default:
+                        return 0;
+                }
+            });
+
+            renderSubmissions(filtered);
         }
 
         // Render Cards
@@ -166,7 +210,7 @@
                 card.innerHTML = `
                     <div class="flex justify-between items-start mb-6">
                         <span class="bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest">
-                            ${item.status}
+                            ${item.status || 'Active'}
                         </span>
                         <span class="text-stone-400 dark:text-stone-500 text-xs font-mono">${item.date}</span>
                     </div>
@@ -197,16 +241,9 @@
             lucide.createIcons();
         }
 
-        // Search Logic
-        searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            const filtered = submissions.filter(s => 
-                s.name.toLowerCase().includes(term) || 
-                s.subject.toLowerCase().includes(term) ||
-                s.date.includes(term)
-            );
-            renderSubmissions(filtered);
-        });
+        // Event Listeners
+        searchInput.addEventListener('input', applyFilters);
+        sortSelect.addEventListener('change', applyFilters);
 
         loadSubmissions();
     </script>

@@ -17,10 +17,13 @@ app.use((req, res, next) => {
 // Direct API route for submissions - MUST BE BEFORE STATIC/CATCH-ALL
 app.get("/api/submissions", (req, res) => {
   const filePath = path.join(__dirname, "data", "submissions.json");
+  console.log(`Attempting to serve data from: ${filePath}`);
   res.sendFile(filePath, (err) => {
     if (err) {
       console.error("Error sending file:", err);
-      res.status(500).json({ error: "Could not read submissions data" });
+      res.status(500).json({ error: "Could not read submissions data", details: err.message });
+    } else {
+      console.log("Data served successfully");
     }
   });
 });
