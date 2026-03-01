@@ -1,5 +1,5 @@
 {
-  "name": "Research Submission Manager",
-  "description": "A secure, blog-style management system for research paper submissions using Google Sheets as a database.",
+  "name": "ResearchHub GitOps",
+  "description": "A high-performance static research submission blog using GitHub as a database and Gemini for automated data entry.",
   "requestFramePermissions": []
 }

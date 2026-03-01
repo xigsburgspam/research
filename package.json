@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
-    "build": "vite build",
-    "preview": "vite preview",
-    "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "build": "echo 'No build step needed for static site'",
+    "preview": "node server.ts",
+    "clean": "echo 'Nothing to clean'",
+    "lint": "echo 'No linting needed for static site'"
   },
   "dependencies": {
     "@google/genai": "^1.29.0",
