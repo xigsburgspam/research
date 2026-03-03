@@ -171,12 +171,6 @@
             background: linear-gradient(to right, #44403c, #fafaf9, #44403c);
         }
 
-        /* Magnetic Button */
-        .magnetic {
-            display: inline-block;
-            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
         /* Mouse Reactive Background */
         #bg-glow {
             position: fixed;
@@ -224,7 +218,7 @@
             <div class="flex items-center gap-3">
                 <button id="gravityModeBtn" class="px-5 py-2 glass rounded-xl text-sm font-bold uppercase tracking-widest hover:scale-105 transition-all active:scale-95 text-stone-600 dark:text-stone-100 flex items-center gap-2 shadow-lg shadow-blue-500/10 dark:shadow-blue-500/20">
                     <i data-lucide="magnet" size="16"></i>
-                    <span id="gravityModeText">Enter Gravity Mode</span>
+                    <span id="gravityModeText">Enable 0 Gravity</span>
                 </button>
             </div>
             <div class="flex items-center gap-4">
@@ -332,7 +326,7 @@
     </button>
 
     <script>
-        // EMBEDDED RESEARCH DATA (Directly managed by Gemini)
+        // EMBEDDED RESEARCH DATA
         const SUBMISSIONS_DATA = [
             {
                 "id": "1",
@@ -432,21 +426,6 @@
             // Background glow movement
             bgGlow.style.left = clientX + 'px';
             bgGlow.style.top = clientY + 'px';
-            
-            // Magnetic effect logic
-            const magneticElements = document.querySelectorAll('.magnetic');
-            magneticElements.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                const x = clientX - rect.left - rect.width / 2;
-                const y = clientY - rect.top - rect.height / 2;
-                const distance = Math.sqrt(x*x + y*y);
-                
-                if (distance < 100) {
-                    el.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
-                } else {
-                    el.style.transform = `translate(0, 0)`;
-                }
-            });
         });
 
         // Click Ripple Effect
@@ -606,23 +585,25 @@
 
         // Gravity Mode Logic
         let isGravityMode = false;
+        let gravityStartTime = 0;
         const gravityBtn = document.getElementById('gravityModeBtn');
         const gravityText = document.getElementById('gravityModeText');
 
         gravityBtn.addEventListener('click', () => {
             isGravityMode = !isGravityMode;
             if (isGravityMode) {
-                gravityText.textContent = 'Exit Gravity Mode';
+                gravityStartTime = Date.now();
+                gravityText.textContent = 'Disable 0 Gravity';
                 gravityBtn.classList.add('bg-blue-500/20', 'dark:bg-blue-500/20');
                 document.querySelectorAll('.gravity-element').forEach(el => {
                     el.style.transition = 'none'; // Disable CSS transitions for smooth JS animation
                 });
                 requestAnimationFrame(gravityLoop);
             } else {
-                gravityText.textContent = 'Enter Gravity Mode';
+                gravityText.textContent = 'Enable 0 Gravity';
                 gravityBtn.classList.remove('bg-blue-500/20', 'dark:bg-blue-500/20');
                 document.querySelectorAll('.gravity-element').forEach(el => {
-                    el.style.transition = ''; // Restore CSS transitions
+                    el.style.transition = 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)'; // Restore CSS transitions
                     el.style.transform = '';
                 });
             }
@@ -632,15 +613,18 @@
             if (!isGravityMode) return;
             
             const time = Date.now() * 0.0015;
+            const easeFactor = Math.min((Date.now() - gravityStartTime) / 2000, 1);
+            const smoothFactor = easeFactor < 0.5 ? 2 * easeFactor * easeFactor : 1 - Math.pow(-2 * easeFactor + 2, 2) / 2;
+
             document.querySelectorAll('.gravity-element').forEach((el, index) => {
                 // Pure levitation with direct transform for reliable animation
                 const speedX = 0.8 + (index % 3) * 0.1;
                 const speedY = 1.2 + (index % 2) * 0.2;
                 const phase = index * 1.5;
                 
-                const floatY = Math.sin(time * speedY + phase) * 12;
-                const floatX = Math.cos(time * speedX + phase) * 8;
-                const rotate = Math.sin(time * 0.5 + phase) * 1.5;
+                const floatY = Math.sin(time * speedY + phase) * 12 * smoothFactor;
+                const floatX = Math.cos(time * speedX + phase) * 8 * smoothFactor;
+                const rotate = Math.sin(time * 0.5 + phase) * 1.5 * smoothFactor;
                 
                 el.style.transform = `translate(${floatX}px, ${floatY}px) rotate(${rotate}deg)`;
             });
