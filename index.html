@@ -281,29 +281,17 @@
     <footer class="border-t border-stone-200 dark:border-stone-800 py-12 bg-white dark:bg-stone-950 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex flex-col items-center gap-8">
-                <!-- Stats Counter (Footer Center) -->
-                <div id="statsCounter" class="opacity-0 transition-all duration-1000 translate-y-4">
-                    <div class="flex items-center gap-6 px-6 py-3 rounded-2xl glass shadow-xl shadow-stone-900/5 dark:shadow-black/20 border border-stone-200/50 dark:border-stone-800/50">
-                        <!-- Total Visitors -->
-                        <div class="flex flex-col items-center">
-                            <span class="text-[9px] font-black text-stone-400 dark:text-stone-500 uppercase tracking-widest mb-1.5">Visitors</span>
-                            <span id="visitorCount" class="text-sm font-mono font-bold text-stone-900 dark:text-white tabular-nums">0000</span>
-                        </div>
-                        
-                        <!-- Divider -->
-                        <div class="h-8 w-[1px] bg-stone-200 dark:bg-stone-800"></div>
-                        
-                        <!-- Live Viewers -->
-                        <div class="flex flex-col items-center">
-                            <div class="flex items-center gap-2 mb-1.5">
-                                <div class="relative flex items-center justify-center">
-                                    <div class="absolute inset-0 bg-emerald-500/40 blur-sm rounded-full animate-pulse"></div>
-                                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 relative z-10"></div>
-                                </div>
-                                <span class="text-[9px] font-black text-stone-400 dark:text-stone-500 uppercase tracking-widest">Live Now</span>
-                            </div>
-                            <span id="liveCount" class="text-sm font-mono font-bold text-stone-900 dark:text-white tabular-nums">0</span>
-                        </div>
+                <!-- External Visitor Counter -->
+                <div class="flex flex-col items-center gap-3">
+                    <span class="text-[10px] font-black text-stone-400 dark:text-stone-500 uppercase tracking-[0.3em] mb-1">Traffic Analytics</span>
+                    <div class="px-6 py-4 rounded-2xl glass border border-stone-200/50 dark:border-stone-800/50 shadow-xl shadow-stone-900/5 dark:shadow-black/20 flex items-center justify-center min-w-[200px]">
+                        <div id="sfch9rmy4g567dnpe75jw1sx6wtncyrbk11"></div>
+                        <script type="text/javascript" src="https://counter1.optistats.ovh/private/counter.js?c=h9rmy4g567dnpe75jw1sx6wtncyrbk11&down=async" async></script>
+                        <noscript>
+                            <a href="https://www.freecounterstat.com" title="free website counter">
+                                <img src="https://counter1.optistats.ovh/private/freecounterstat.php?c=h9rmy4g567dnpe75jw1sx6wtncyrbk11" border="0" title="free website counter" alt="free website counter">
+                            </a>
+                        </noscript>
                     </div>
                 </div>
 
@@ -502,70 +490,6 @@
 
         // Initialize Lucide icons
         lucide.createIcons();
-
-        // Visitor Counter & Live Viewers Logic
-        async function initStats() {
-            const statsEl = document.getElementById('statsCounter');
-            const visitorCountDisplay = document.getElementById('visitorCount');
-            const liveCountDisplay = document.getElementById('liveCount');
-            if (!statsEl || !visitorCountDisplay || !liveCountDisplay) return;
-
-            // 1. Initial Fetch
-            try {
-                const lastVisit = localStorage.getItem('xiro_last_visit');
-                const now = Date.now();
-                const cooldown = 30 * 60 * 1000; // 30 minutes
-
-                let response;
-                if (!lastVisit || (now - parseInt(lastVisit)) > cooldown) {
-                    response = await fetch('/api/stats/hit', { method: 'POST' });
-                    localStorage.setItem('xiro_last_visit', now.toString());
-                } else {
-                    response = await fetch('/api/stats');
-                }
-
-                if (response.ok) {
-                    const data = await response.json();
-                    visitorCountDisplay.textContent = data.total.toString().padStart(4, '0');
-                    liveCountDisplay.textContent = data.live || 1;
-                    statsEl.classList.remove('opacity-0', 'translate-y-4');
-                    statsEl.classList.add('translate-y-0');
-                }
-            } catch (err) {
-                console.error('Stats fetch error:', err);
-            }
-
-            // 2. WebSocket for Real-time Live Count
-            function connectWS() {
-                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-                const wsUrl = `${protocol}//${window.location.host}`;
-                const socket = new WebSocket(wsUrl);
-
-                socket.onmessage = (event) => {
-                    try {
-                        const data = JSON.parse(event.data);
-                        if (data.type === 'LIVE_COUNT') {
-                            liveCountDisplay.textContent = data.count;
-                        }
-                    } catch (e) {
-                        console.error('WS message error:', e);
-                    }
-                };
-
-                socket.onclose = () => {
-                    setTimeout(connectWS, 3000); // Reconnect after 3s
-                };
-
-                socket.onerror = (err) => {
-                    console.error('WS error:', err);
-                    socket.close();
-                };
-            }
-
-            connectWS();
-        }
-
-        initStats();
 
         let submissions = SUBMISSIONS_DATA;
         const grid = document.getElementById('submissionsGrid');
