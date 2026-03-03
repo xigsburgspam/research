@@ -4,15 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Xiro Gravity | Levitate Beyond Infinity</title>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HLDV0ER89V"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-HLDV0ER89V');
-    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,6 +45,19 @@
             to { transform: rotate(360deg); }
         }
 
+        @keyframes cosmic-explosion {
+            0% { transform: scale(0); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: scale(4); opacity: 0; }
+        }
+
+        @keyframes liquid-morph {
+            0%, 100% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; transform: translate(0, 0) rotate(0deg); }
+            33% { border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%; transform: translate(5%, 5%) rotate(120deg); }
+            66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; transform: translate(-5%, 2%) rotate(240deg); }
+        }
+
         .animate-reveal { opacity: 0; }
         .animate-reveal.visible { animation: reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         
@@ -74,31 +78,101 @@
         }
 
         .glass {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
         }
         .dark .glass {
-            background: rgba(28, 25, 23, 0.6);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 12, 12, 0.4);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.12);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px) saturate(200%);
+            -webkit-backdrop-filter: blur(25px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            pointer-events: none;
         }
         .dark .glass-card {
-            background: rgba(28, 25, 23, 0.6);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.5);
+            background: rgba(20, 18, 18, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Shiny Effect */
+        .shiny-effect {
+            position: relative;
+            overflow: hidden;
+        }
+        .shiny-effect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transform: skewX(-25deg);
+            transition: none;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .shiny-effect:hover::before {
+            animation: shine 0.75s forwards;
+        }
+        @keyframes shine {
+            100% {
+                left: 200%;
+            }
+        }
+
+        .cosmic-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            background: radial-gradient(circle, #fff 0%, #3b82f6 30%, #8b5cf6 60%, transparent 100%);
+            display: none;
+        }
+        .dark .cosmic-overlay {
+            background: radial-gradient(circle, #000 0%, #1e3a8a 30%, #4c1d95 60%, transparent 100%);
+        }
+
+        .liquid-blob {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            filter: blur(80px);
+            animation: liquid-morph 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .dark .liquid-blob {
+            background: linear-gradient(45deg, rgba(30, 58, 138, 0.15), rgba(76, 29, 149, 0.15));
         }
 
         .bg-grid {
@@ -107,24 +181,7 @@
         }
 
         /* Custom Cursor */
-        #cursor {
-            width: 12px;
-            height: 12px;
-            background: #1c1917;
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.15s ease-out, background 0.3s ease, width 0.3s ease, height 0.3s ease;
-            mix-blend-mode: difference;
-        }
-        .dark #cursor { background: #fafaf9; }
-        #cursor.hover {
-            transform: scale(2.5);
-            background: rgba(255,255,255,0.2);
-            mix-blend-mode: normal;
-            backdrop-filter: blur(4px);
-        }
+        /* Removed custom cursor styles */
 
         /* Click Ripple */
         .ripple {
@@ -191,13 +248,17 @@
         .reveal-delay-3 { animation-delay: 0.45s; }
     </style>
 </head>
-<body class="bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-50 min-h-screen transition-colors duration-700 selection:bg-stone-900 selection:text-white dark:selection:bg-white dark:selection:text-stone-900 cursor-none">
-    <div id="cursor"></div>
+<body class="bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-50 min-h-screen transition-colors duration-1000 ease-in-out selection:bg-stone-900 selection:text-white dark:selection:bg-white dark:selection:text-stone-900">
     <div id="bg-glow"></div>
     <div id="scrollProgress"></div>
+    <div id="cosmicOverlay" class="cosmic-overlay"></div>
     
     <!-- Animated Background Elements -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div class="liquid-blob top-[-10%] left-[-10%]"></div>
+        <div class="liquid-blob bottom-[-10%] right-[-10%]" style="animation-delay: -5s"></div>
+        <div class="liquid-blob top-[40%] left-[30%] w-[300px] h-[300px]" style="animation-delay: -10s"></div>
+        
         <div class="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-200/30 dark:bg-blue-900/10 rounded-full blur-[150px] animate-pulse-glow"></div>
         <div class="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-purple-200/30 dark:bg-purple-900/10 rounded-full blur-[150px] animate-pulse-glow" style="animation-delay: 3s"></div>
         <div class="absolute top-[20%] right-[10%] w-[40%] h-[40%] bg-indigo-100/20 dark:bg-indigo-900/5 rounded-full blur-[120px] animate-pulse-glow" style="animation-delay: 1.5s"></div>
@@ -393,29 +454,43 @@
 
         // Theme Management
         const themeToggle = document.getElementById('themeToggle');
+        const cosmicOverlay = document.getElementById('cosmicOverlay');
         const html = document.documentElement;
         
         const currentTheme = localStorage.getItem('theme') || 'dark';
         if (currentTheme === 'dark') html.classList.add('dark');
         else html.classList.remove('dark');
 
-        themeToggle.addEventListener('click', () => {
-            html.classList.toggle('dark');
-            const theme = html.classList.contains('dark') ? 'dark' : 'light';
-            localStorage.setItem('theme', theme);
-            lucide.createIcons();
+        themeToggle.addEventListener('click', (e) => {
+            const rect = themeToggle.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+
+            cosmicOverlay.style.display = 'block';
+            cosmicOverlay.style.left = (x - window.innerWidth * 2) + 'px';
+            cosmicOverlay.style.top = (y - window.innerHeight * 2) + 'px';
+            cosmicOverlay.style.width = (window.innerWidth * 4) + 'px';
+            cosmicOverlay.style.height = (window.innerHeight * 4) + 'px';
+            cosmicOverlay.style.animation = 'cosmic-explosion 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+
+            setTimeout(() => {
+                html.classList.toggle('dark');
+                const theme = html.classList.contains('dark') ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+                lucide.createIcons();
+            }, 600);
+
+            cosmicOverlay.addEventListener('animationend', () => {
+                cosmicOverlay.style.display = 'none';
+                cosmicOverlay.style.animation = '';
+            }, { once: true });
         });
 
-        // Custom Cursor & Mouse Reactive Background
-        const cursor = document.getElementById('cursor');
+        // Mouse Reactive Background
         const bgGlow = document.getElementById('bg-glow');
         
         document.addEventListener('mousemove', (e) => {
             const { clientX, clientY } = e;
-            
-            // Cursor movement
-            cursor.style.left = clientX + 'px';
-            cursor.style.top = clientY + 'px';
             
             // Background glow movement
             bgGlow.style.left = clientX + 'px';
@@ -437,19 +512,6 @@
             });
         });
 
-        // Hover states for cursor
-        document.addEventListener('mouseover', (e) => {
-            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('.card-hover') || e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
-                cursor.classList.add('hover');
-            }
-        });
-        
-        document.addEventListener('mouseout', (e) => {
-            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('.card-hover') || e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
-                cursor.classList.remove('hover');
-            }
-        });
-
         // Click Ripple Effect
         document.addEventListener('click', (e) => {
             const ripple = document.createElement('div');
@@ -462,12 +524,6 @@
             ripple.addEventListener('animationend', () => {
                 ripple.remove();
             });
-            
-            // Bounce effect on click for the cursor
-            cursor.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-                cursor.style.transform = cursor.classList.contains('hover') ? 'scale(4)' : 'scale(1)';
-            }, 100);
         });
 
         // Scroll Progress & Back to Top & Reveal on Scroll
@@ -567,7 +623,7 @@
 
             data.forEach((item, index) => {
                 const card = document.createElement('div');
-                card.className = 'glass-card rounded-[2rem] p-8 transition-all duration-300 card-hover hover:shadow-2xl group flex flex-col h-full animate-reveal';
+                card.className = 'glass-card shiny-effect rounded-[2rem] p-8 transition-all duration-300 card-hover hover:shadow-2xl group flex flex-col h-full animate-reveal';
                 card.style.transitionDelay = `${(index % 3) * 0.1}s`;
                 
                 card.innerHTML = `
@@ -593,7 +649,7 @@
                         </div>
                     </div>
 
-                    <a href="${item.pdfLink}" target="_blank" class="magnetic glass flex items-center justify-center gap-2 w-full py-4 text-stone-900 dark:text-white rounded-2xl hover:bg-white/20 dark:hover:bg-white/10 transition-all font-bold shadow-xl shadow-stone-900/10 dark:shadow-black/20">
+                    <a href="${item.pdfLink}" target="_blank" class="shiny-effect glass flex items-center justify-center gap-2 w-full py-4 text-stone-900 dark:text-white rounded-2xl hover:bg-white/20 dark:hover:bg-white/10 transition-all font-bold shadow-xl shadow-stone-900/10 dark:shadow-black/20">
                         <i data-lucide="external-link" size="18"></i>
                         Access Record
                     </a>
