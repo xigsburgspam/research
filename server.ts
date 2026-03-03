@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -8,10 +9,49 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = 3000;
 
+// Visitor count persistence
+const VISITOR_COUNT_FILE = path.join(__dirname, "data", "visitor_count.json");
+let visitorCount = 0;
+
+try {
+  if (fs.existsSync(VISITOR_COUNT_FILE)) {
+    const data = fs.readFileSync(VISITOR_COUNT_FILE, "utf-8");
+    visitorCount = JSON.parse(data).count || 0;
+  } else {
+    // Ensure data directory exists
+    const dataDir = path.join(__dirname, "data");
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir);
+    }
+    fs.writeFileSync(VISITOR_COUNT_FILE, JSON.stringify({ count: 0 }));
+  }
+} catch (err) {
+  console.error("Error initializing visitor count:", err);
+}
+
+function saveVisitorCount() {
+  try {
+    fs.writeFileSync(VISITOR_COUNT_FILE, JSON.stringify({ count: visitorCount }));
+  } catch (err) {
+    console.error("Error saving visitor count:", err);
+  }
+}
+
 // Logging middleware for debugging
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
   next();
+});
+
+// Visitor count API
+app.get("/api/visitor-count", (req, res) => {
+  res.json({ count: visitorCount });
+});
+
+app.post("/api/visitor-count/increment", (req, res) => {
+  visitorCount++;
+  saveVisitorCount();
+  res.json({ count: visitorCount });
 });
 
 // Direct API route for submissions - MUST BE BEFORE STATIC/CATCH-ALL
