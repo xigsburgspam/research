@@ -45,19 +45,6 @@
             to { transform: rotate(360deg); }
         }
 
-        @keyframes cosmic-explosion {
-            0% { transform: scale(0); opacity: 0; }
-            20% { opacity: 1; }
-            80% { opacity: 1; }
-            100% { transform: scale(4); opacity: 0; }
-        }
-
-        @keyframes liquid-morph {
-            0%, 100% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; transform: translate(0, 0) rotate(0deg); }
-            33% { border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%; transform: translate(5%, 5%) rotate(120deg); }
-            66% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; transform: translate(-5%, 2%) rotate(240deg); }
-        }
-
         .animate-reveal { opacity: 0; }
         .animate-reveal.visible { animation: reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         
@@ -146,35 +133,6 @@
             }
         }
 
-        .cosmic-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 9999;
-            background: radial-gradient(circle, #fff 0%, #3b82f6 30%, #8b5cf6 60%, transparent 100%);
-            display: none;
-        }
-        .dark .cosmic-overlay {
-            background: radial-gradient(circle, #000 0%, #1e3a8a 30%, #4c1d95 60%, transparent 100%);
-        }
-
-        .liquid-blob {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
-            filter: blur(80px);
-            animation: liquid-morph 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
-            z-index: -1;
-            pointer-events: none;
-        }
-        .dark .liquid-blob {
-            background: linear-gradient(45deg, rgba(30, 58, 138, 0.15), rgba(76, 29, 149, 0.15));
-        }
-
         .bg-grid {
             background-size: 50px 50px;
             background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
@@ -248,17 +206,12 @@
         .reveal-delay-3 { animation-delay: 0.45s; }
     </style>
 </head>
-<body class="bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-50 min-h-screen transition-colors duration-1000 ease-in-out selection:bg-stone-900 selection:text-white dark:selection:bg-white dark:selection:text-stone-900">
+<body class="bg-stone-50 text-stone-900 dark:bg-stone-950 dark:text-stone-50 min-h-screen transition-colors duration-500 selection:bg-stone-900 selection:text-white dark:selection:bg-white dark:selection:text-stone-900">
     <div id="bg-glow"></div>
     <div id="scrollProgress"></div>
-    <div id="cosmicOverlay" class="cosmic-overlay"></div>
     
     <!-- Animated Background Elements -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="liquid-blob top-[-10%] left-[-10%]"></div>
-        <div class="liquid-blob bottom-[-10%] right-[-10%]" style="animation-delay: -5s"></div>
-        <div class="liquid-blob top-[40%] left-[30%] w-[300px] h-[300px]" style="animation-delay: -10s"></div>
-        
         <div class="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-200/30 dark:bg-blue-900/10 rounded-full blur-[150px] animate-pulse-glow"></div>
         <div class="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-purple-200/30 dark:bg-purple-900/10 rounded-full blur-[150px] animate-pulse-glow" style="animation-delay: 3s"></div>
         <div class="absolute top-[20%] right-[10%] w-[40%] h-[40%] bg-indigo-100/20 dark:bg-indigo-900/5 rounded-full blur-[120px] animate-pulse-glow" style="animation-delay: 1.5s"></div>
@@ -268,8 +221,11 @@
     <!-- Navbar -->
     <nav class="bg-white/70 dark:bg-stone-950/70 glass border-b border-stone-200 dark:border-stone-800 sticky top-0 z-50 transition-all duration-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3 cursor-pointer group" onclick="window.location.reload()">
-                <span class="font-bold text-xl tracking-tighter uppercase italic group-hover:tracking-normal transition-all duration-500">Team Xiro Gravity</span>
+            <div class="flex items-center gap-3">
+                <button id="gravityModeBtn" class="px-5 py-2 glass rounded-xl text-sm font-bold uppercase tracking-widest hover:scale-105 transition-all active:scale-95 text-stone-600 dark:text-stone-100 flex items-center gap-2 shadow-lg shadow-blue-500/10 dark:shadow-blue-500/20">
+                    <i data-lucide="magnet" size="16"></i>
+                    <span id="gravityModeText">Enter Gravity Mode</span>
+                </button>
             </div>
             <div class="flex items-center gap-4">
                 <a href="/about.html" class="px-5 py-2 glass rounded-xl text-sm font-bold uppercase tracking-widest hover:scale-105 transition-all active:scale-95 text-stone-600 dark:text-stone-100">About</a>
@@ -284,7 +240,7 @@
     <!-- Hero -->
     <header class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center">
         <div class="animate-reveal opacity-0">
-            <div class="relative inline-flex p-[1px] mb-8 rounded-full overflow-hidden group">
+            <div class="relative inline-flex p-[1px] mb-8 rounded-full overflow-hidden group gravity-element transition-transform">
                 <!-- Rotating Neon Background -->
                 <div class="absolute inset-[-200%] bg-[conic-gradient(from_0deg,transparent_0%,#3b82f6_25%,transparent_50%,#3b82f6_75%,transparent_100%)] animate-[rotate-border_3s_linear_infinite]"></div>
                 
@@ -296,12 +252,12 @@
             </div>
         </div>
         
-        <h1 class="animate-reveal opacity-0 reveal-delay-1 text-6xl md:text-9xl font-serif font-bold mb-10 tracking-tighter leading-[0.85] text-stone-900 dark:text-white">
-            Team Xiro <br/>
-            <span class="italic text-stone-300 dark:text-stone-600 transition-colors duration-700 hover:text-stone-400 dark:hover:text-stone-500 cursor-default">Gravity</span>
+        <h1 class="animate-reveal opacity-0 reveal-delay-1 text-6xl md:text-9xl font-serif font-bold mb-10 tracking-tighter leading-[0.85] text-stone-900 dark:text-white flex flex-col items-center gap-2">
+            <span class="gravity-element transition-transform inline-block">Team Xiro</span>
+            <span class="italic text-stone-300 dark:text-stone-600 transition-colors duration-700 hover:text-stone-400 dark:hover:text-stone-500 cursor-default gravity-element transition-transform inline-block">Gravity</span>
         </h1>
         
-        <p class="animate-reveal opacity-0 reveal-delay-2 text-stone-500 dark:text-stone-400 text-xl md:text-3xl max-w-3xl mx-auto leading-relaxed font-light tracking-tight">
+        <p class="animate-reveal opacity-0 reveal-delay-2 text-stone-500 dark:text-stone-400 text-xl md:text-3xl max-w-3xl mx-auto leading-relaxed font-light tracking-tight gravity-element transition-transform">
             An elite repository of pioneering research and technical breakthroughs, dedicated to pushing the boundaries of human knowledge.
         </p>
     </header>
@@ -310,7 +266,7 @@
     <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
         <!-- Search & Filter -->
         <div class="animate-reveal opacity-0 reveal-delay-3 flex flex-col md:flex-row gap-6 mb-20">
-            <div class="relative flex-1 group">
+            <div class="relative flex-1 group gravity-element transition-transform">
                 <i data-lucide="search" class="absolute left-5 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-stone-900 dark:group-focus-within:text-white transition-colors" size="22"></i>
                 <input 
                     type="text" 
@@ -319,7 +275,7 @@
                     class="w-full pl-14 pr-6 py-5 glass rounded-3xl focus:outline-none focus:ring-8 focus:ring-stone-900/5 dark:focus:ring-white/5 focus:border-stone-900 dark:focus:border-white transition-all shadow-2xl shadow-stone-900/10 dark:shadow-black/40 text-lg dark:text-white"
                 >
             </div>
-            <div class="relative">
+            <div class="relative gravity-element transition-transform">
                 <select 
                     id="sortSelect"
                     class="appearance-none pl-8 pr-14 py-5 glass rounded-3xl focus:outline-none focus:ring-8 focus:ring-stone-900/5 dark:focus:ring-white/5 focus:border-stone-900 dark:focus:border-white transition-all shadow-2xl shadow-stone-900/10 dark:shadow-black/40 font-bold cursor-pointer w-full md:w-72 text-stone-600 dark:text-stone-100"
@@ -454,36 +410,17 @@
 
         // Theme Management
         const themeToggle = document.getElementById('themeToggle');
-        const cosmicOverlay = document.getElementById('cosmicOverlay');
         const html = document.documentElement;
         
         const currentTheme = localStorage.getItem('theme') || 'dark';
         if (currentTheme === 'dark') html.classList.add('dark');
         else html.classList.remove('dark');
 
-        themeToggle.addEventListener('click', (e) => {
-            const rect = themeToggle.getBoundingClientRect();
-            const x = rect.left + rect.width / 2;
-            const y = rect.top + rect.height / 2;
-
-            cosmicOverlay.style.display = 'block';
-            cosmicOverlay.style.left = (x - window.innerWidth * 2) + 'px';
-            cosmicOverlay.style.top = (y - window.innerHeight * 2) + 'px';
-            cosmicOverlay.style.width = (window.innerWidth * 4) + 'px';
-            cosmicOverlay.style.height = (window.innerHeight * 4) + 'px';
-            cosmicOverlay.style.animation = 'cosmic-explosion 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards';
-
-            setTimeout(() => {
-                html.classList.toggle('dark');
-                const theme = html.classList.contains('dark') ? 'dark' : 'light';
-                localStorage.setItem('theme', theme);
-                lucide.createIcons();
-            }, 600);
-
-            cosmicOverlay.addEventListener('animationend', () => {
-                cosmicOverlay.style.display = 'none';
-                cosmicOverlay.style.animation = '';
-            }, { once: true });
+        themeToggle.addEventListener('click', () => {
+            html.classList.toggle('dark');
+            const theme = html.classList.contains('dark') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+            lucide.createIcons();
         });
 
         // Mouse Reactive Background
@@ -623,22 +560,22 @@
 
             data.forEach((item, index) => {
                 const card = document.createElement('div');
-                card.className = 'glass-card shiny-effect rounded-[2rem] p-8 transition-all duration-300 card-hover hover:shadow-2xl group flex flex-col h-full animate-reveal';
+                card.className = 'glass-card shiny-effect rounded-[2rem] p-8 transition-all duration-300 card-hover hover:shadow-2xl group flex flex-col h-full animate-reveal gravity-element';
                 card.style.transitionDelay = `${(index % 3) * 0.1}s`;
                 
                 card.innerHTML = `
-                    <div class="flex justify-between items-start mb-6">
+                    <div class="flex justify-between items-start mb-6 gravity-element transition-transform">
                         <span class="glass text-stone-600 dark:text-stone-300 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest">
                             ${item.status || 'Active'}
                         </span>
                         <span class="text-stone-400 dark:text-stone-500 text-xs font-mono">${item.date}</span>
                     </div>
                     
-                    <h3 class="text-2xl font-bold mb-4 group-hover:text-stone-700 dark:group-hover:text-stone-300 transition-colors leading-tight flex-grow">
+                    <h3 class="text-2xl font-bold mb-4 group-hover:text-stone-700 dark:group-hover:text-stone-300 transition-colors leading-tight flex-grow gravity-element transition-transform">
                         ${item.subject}
                     </h3>
 
-                    <div class="space-y-3 mb-8">
+                    <div class="space-y-3 mb-8 gravity-element transition-transform">
                         <div class="flex items-center gap-3 text-stone-500 dark:text-stone-400">
                             <i data-lucide="user" size="16"></i>
                             <span class="font-medium">${item.name}</span>
@@ -649,7 +586,7 @@
                         </div>
                     </div>
 
-                    <a href="${item.pdfLink}" target="_blank" class="shiny-effect glass flex items-center justify-center gap-2 w-full py-4 text-stone-900 dark:text-white rounded-2xl hover:bg-white/20 dark:hover:bg-white/10 transition-all font-bold shadow-xl shadow-stone-900/10 dark:shadow-black/20">
+                    <a href="${item.pdfLink}" target="_blank" class="shiny-effect glass flex items-center justify-center gap-2 w-full py-4 text-stone-900 dark:text-white rounded-2xl hover:bg-white/20 dark:hover:bg-white/10 transition-all font-bold shadow-xl shadow-stone-900/10 dark:shadow-black/20 gravity-element transition-transform">
                         <i data-lucide="external-link" size="18"></i>
                         Access Record
                     </a>
@@ -666,6 +603,50 @@
         sortSelect.addEventListener('change', applyFilters);
 
         initSubmissions();
+
+        // Gravity Mode Logic
+        let isGravityMode = false;
+        const gravityBtn = document.getElementById('gravityModeBtn');
+        const gravityText = document.getElementById('gravityModeText');
+
+        gravityBtn.addEventListener('click', () => {
+            isGravityMode = !isGravityMode;
+            if (isGravityMode) {
+                gravityText.textContent = 'Exit Gravity Mode';
+                gravityBtn.classList.add('bg-blue-500/20', 'dark:bg-blue-500/20');
+                document.querySelectorAll('.gravity-element').forEach(el => {
+                    el.style.transition = 'none'; // Disable CSS transitions for smooth JS animation
+                });
+                requestAnimationFrame(gravityLoop);
+            } else {
+                gravityText.textContent = 'Enter Gravity Mode';
+                gravityBtn.classList.remove('bg-blue-500/20', 'dark:bg-blue-500/20');
+                document.querySelectorAll('.gravity-element').forEach(el => {
+                    el.style.transition = ''; // Restore CSS transitions
+                    el.style.transform = '';
+                });
+            }
+        });
+
+        function gravityLoop() {
+            if (!isGravityMode) return;
+            
+            const time = Date.now() * 0.0015;
+            document.querySelectorAll('.gravity-element').forEach((el, index) => {
+                // Pure levitation with direct transform for reliable animation
+                const speedX = 0.8 + (index % 3) * 0.1;
+                const speedY = 1.2 + (index % 2) * 0.2;
+                const phase = index * 1.5;
+                
+                const floatY = Math.sin(time * speedY + phase) * 12;
+                const floatX = Math.cos(time * speedX + phase) * 8;
+                const rotate = Math.sin(time * 0.5 + phase) * 1.5;
+                
+                el.style.transform = `translate(${floatX}px, ${floatY}px) rotate(${rotate}deg)`;
+            });
+            
+            requestAnimationFrame(gravityLoop);
+        }
     </script>
 </body>
 </html>
