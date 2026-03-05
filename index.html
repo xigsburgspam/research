@@ -295,6 +295,14 @@
             <i data-lucide="file-text" class="mx-auto text-stone-200 dark:text-stone-800 mb-4" size="64"></i>
             <p class="text-stone-500">No records found in the current sector.</p>
         </div>
+
+        <!-- Pagination -->
+        <div id="paginationContainer" class="hidden mt-12 flex flex-col items-center gap-6">
+            <p id="paginationInfo" class="text-stone-500 dark:text-stone-400 text-sm font-medium tracking-wide"></p>
+            <div id="paginationControls" class="flex flex-wrap justify-center gap-2">
+                <!-- Buttons injected here -->
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -326,136 +334,6 @@
     </button>
 
     <script>
-        // EMBEDDED RESEARCH DATA
-        const SUBMISSIONS_DATA = [
-            {
-                "id": "1",
-                "name": "Talha Jubayer",
-                "dept": "AME Aerospace",
-                "subject": "Anatomy of BLDC Motors",
-                "pdfLink": "https://drive.google.com/file/d/1jmiFtLQqqW54BbuDEYy7c-obYvhJEAiY/view?usp=drive_link",
-                "date": "02 March 2026",
-                "status": "Active"
-            },
-            {
-                "id": "2",
-                "name": "Nafiz Rayhan",
-                "dept": "AME Avionics",
-                "subject": "PID Control Implementation in UAV Systems",
-                "pdfLink": "https://drive.google.com/file/d/1Bg6_o9tMV0qsE-7sp38K3GZR8ynFmOLD/view",
-                "date": "03 March 2026",
-                "status": "Active"
-            },
-            {
-                "id": "3",
-                "name": "Maisha Tahia",
-                "dept": "AE Aerospace",
-                "subject": "Flight Controller Architecture",
-                "pdfLink": "https://drive.google.com/file/d/1cRJ3wR0w5avfedoLaMIQ13KhyjKQNvoX/view",
-                "date": "03 March 2026",
-                "status": "Active"
-            },
-            {
-                "id": "4",
-                "name": "Abdullah Al Mamun",
-                "dept": "AME Avionics",
-                "subject": "Thrust Testing of BLDC Motors",
-                "pdfLink": "https://drive.google.com/file/d/1kZDgqsIJriSC-ucP1EXbv1S1bNXZMLjz/view",
-                "date": "03 March 2026",
-                "status": "Active"
-            },
-            {
-                "id": "5",
-                "name": "Mohammad Tashik Sadman",
-                "dept": "AME Aerospace",
-                "subject": "Manual vs Autonomous Flight",
-                "pdfLink": "https://drive.google.com/file/d/1fpCxPF1XbWAuUFV_eYBly8LDKnL8GXb6/view",
-                "date": "03 March 2026",
-                "status": "Active"
-            },
-            {
-                "id": "6",
-                "name": "Abdur Rahman Noywn",
-                "dept": "AE Aerospace",
-                "subject": "RTH Algorithm",
-                "pdfLink": "https://drive.google.com/file/d/1rECjq2wPtcR-pWO5asA3hlTP0nIyQXor/view",
-                "date": "03 March 2026",
-                "status": "Active"
-            },
-            {
-                "id": "7",
-                "name": "Talha Jubayer",
-                "dept": "AME Aerospace",
-                "subject": "Aerodynamic Efficiency of Propellers",
-                "pdfLink": "https://drive.google.com/file/d/1t9oKj1p1U0odlqigm3brt3LJB3arUmgD/view",
-                "date": "03 March 2026",
-                "status": "Active"
-            },
-            {
-                "id": "8",
-                "name": "Hasan Parvej Aurko",
-                "dept": "AE Aerospace",
-                "subject": "Servo Motor Analysis",
-                "pdfLink": "https://drive.google.com/file/d/1GB011ID-0JgBzWfxIc0aN3BQxFNKv-t0/view",
-                "date": "03 March 2026",
-                "status": "Active"
-            },
-            {
-                "id": "9",
-                "name": "Hasan Parvej Aurko",
-                "dept": "AE Aerospace",
-                "subject": "Flaperon Integration in Small UAV",
-                "pdfLink": "https://drive.google.com/file/d/1g6wnAg4Espe1pMXGCoWNoIw-IoBu4Nd0/view",
-                "date": "04 March 2026",
-                "status": "Active"
-            },
-            {
-                "id": "10",
-                "name": "Abdur Rahman Noywn",
-                "dept": "AE Aerospace",
-                "subject": "Wing Spar Design and Load Analysis",
-                "pdfLink": "https://drive.google.com/file/d/1xmTuqC2dAxe7uvY_t3q8mkV8mp0vhWU_/view",
-                "date": "04 March 2026",
-                "status": "Active"
-            },
-            {
-                "id": "11",
-                "name": "Sahran Al Munabbir",
-                "dept": "AME Aerospace",
-                "subject": "Role of PWM Signals in UAV Motor Control",
-                "pdfLink": "https://drive.google.com/file/d/1bg3-RWUVk7NadLNnwUIIiOpIjW-E7rAk/view",
-                "date": "04 March 2026",
-                "status": "Active"
-            },
-            {
-                "id": "12",
-                "name": "Nafiz Rayhan",
-                "dept": "AME Avionics",
-                "subject": "Motor–Propeller Matching for Optimal Efficiency",
-                "pdfLink": "https://drive.google.com/file/d/1JlF-R5itT56P5yi76k_Z4SioMmus6AWN/view",
-                "date": "04 March 2026",
-                "status": "Active"
-            },
-            {
-                "id": "13",
-                "name": "Talha Jubayer",
-                "dept": "AME Aerospace",
-                "subject": "Functional Analysis of ESC Modules in UAV",
-                "pdfLink": "https://drive.google.com/file/d/1j-vPIuvI2YpE3ALyvu3JsArg1b55gbP1/view",
-                "date": "04 March 2026",
-                "status": "Active"
-            },
-            {
-                "id": "14",
-                "name": "Mohine Rana Soria",
-                "dept": "AE Aerospace",
-                "subject": "Throttle Response Dynamics in Electric UAV",
-                "pdfLink": "https://drive.google.com/file/d/12a0mtXNjg7i_1R24Az0HC9jvNWZi9ERP/view",
-                "date": "04 March 2026",
-                "status": "Active"
-            }
-        ];
-
         // Theme Management
         const themeToggle = document.getElementById('themeToggle');
         const html = document.documentElement;
@@ -526,17 +404,32 @@
         // Initialize Lucide icons
         lucide.createIcons();
 
-        let submissions = SUBMISSIONS_DATA;
+        let submissions = [];
+        let filteredSubmissions = [];
+        let currentPage = 1;
+        const itemsPerPage = 6;
+
         const grid = document.getElementById('submissionsGrid');
         const searchInput = document.getElementById('searchInput');
         const sortSelect = document.getElementById('sortSelect');
         const emptyState = document.getElementById('emptyState');
+        const paginationContainer = document.getElementById('paginationContainer');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const paginationControls = document.getElementById('paginationControls');
 
         // Initialize Data
-        function initSubmissions() {
+        async function initSubmissions() {
             try {
                 // Apply reveal observer to header elements
                 document.querySelectorAll('.animate-reveal').forEach(el => revealObserver.observe(el));
+                
+                // Fetch data from JSON file
+                const response = await fetch('/data/research.json');
+                if (!response.ok) throw new Error('Failed to load research data');
+                
+                const data = await response.json();
+                submissions = data.papers || [];
+                
                 applyFilters();
             } catch (error) {
                 console.error('Error initializing submissions:', error);
@@ -551,14 +444,14 @@
             const term = searchInput.value.toLowerCase();
             const sortBy = sortSelect.value;
 
-            let filtered = submissions.filter(s => 
+            filteredSubmissions = submissions.filter(s => 
                 s.name.toLowerCase().includes(term) || 
                 s.subject.toLowerCase().includes(term) ||
                 s.date.includes(term)
             );
 
             // Sorting logic
-            filtered.sort((a, b) => {
+            filteredSubmissions.sort((a, b) => {
                 switch (sortBy) {
                     case 'latest':
                         return new Date(b.date) - new Date(a.date);
@@ -577,21 +470,86 @@
                 }
             });
 
-            renderSubmissions(filtered);
+            // Reset to first page when filtering/sorting
+            currentPage = 1;
+            renderSubmissions();
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            renderSubmissions();
+            // Scroll to top of grid
+            document.getElementById('submissionsGrid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredSubmissions.length / itemsPerPage);
+            
+            if (totalPages <= 1) {
+                paginationContainer.classList.add('hidden');
+                return;
+            }
+            
+            paginationContainer.classList.remove('hidden');
+            
+            // Update info text
+            const startIdx = (currentPage - 1) * itemsPerPage + 1;
+            const endIdx = Math.min(currentPage * itemsPerPage, filteredSubmissions.length);
+            paginationInfo.textContent = `Showing ${startIdx}-${endIdx} of ${filteredSubmissions.length} papers`;
+            
+            // Build controls
+            let controlsHTML = '';
+            
+            // Prev button
+            controlsHTML += `
+                <button onclick="changePage(${currentPage - 1})" 
+                        class="px-4 py-2 rounded-xl glass text-sm font-medium transition-all ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95 text-stone-700 dark:text-stone-300'}"
+                        ${currentPage === 1 ? 'disabled' : ''}>
+                    Prev
+                </button>
+            `;
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const isActive = i === currentPage;
+                controlsHTML += `
+                    <button onclick="changePage(${i})" 
+                            class="w-10 h-10 rounded-xl text-sm font-bold transition-all ${isActive ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30' : 'glass text-stone-600 dark:text-stone-400 hover:scale-105 active:scale-95'}">
+                        ${i}
+                    </button>
+                `;
+            }
+            
+            // Next button
+            controlsHTML += `
+                <button onclick="changePage(${currentPage + 1})" 
+                        class="px-4 py-2 rounded-xl glass text-sm font-medium transition-all ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95 text-stone-700 dark:text-stone-300'}"
+                        ${currentPage === totalPages ? 'disabled' : ''}>
+                    Next
+                </button>
+            `;
+            
+            paginationControls.innerHTML = controlsHTML;
         }
 
         // Render Cards
-        function renderSubmissions(data) {
+        function renderSubmissions() {
             grid.innerHTML = '';
             
-            if (data.length === 0) {
+            if (filteredSubmissions.length === 0) {
                 emptyState.classList.remove('hidden');
+                paginationContainer.classList.add('hidden');
                 return;
             } else {
                 emptyState.classList.add('hidden');
             }
 
-            data.forEach((item, index) => {
+            // Pagination slice
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedData = filteredSubmissions.slice(startIndex, endIndex);
+
+            paginatedData.forEach((item, index) => {
                 const card = document.createElement('div');
                 card.className = 'glass-card shiny-effect rounded-[2rem] p-8 transition-all duration-300 card-hover hover:shadow-2xl group flex flex-col h-full animate-reveal gravity-element';
                 card.style.transitionDelay = `${(index % 3) * 0.1}s`;
@@ -628,6 +586,7 @@
                 revealObserver.observe(card);
             });
             
+            renderPagination();
             lucide.createIcons();
         }
 
