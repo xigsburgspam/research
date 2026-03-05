@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
-    "build": "mkdir -p dist && cp -r *.html dist/",
+    "build": "mkdir -p dist && cp -r *.html dist/ && cp -r data dist/",
     "preview": "node server.ts",
     "clean": "echo 'Nothing to clean'",
     "lint": "echo 'No linting needed for static site'"
