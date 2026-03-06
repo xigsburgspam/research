@@ -125,6 +125,78 @@
       "pdfLink": "https://drive.google.com/file/d/12a0mtXNjg7i_1R24Az0HC9jvNWZi9ERP/view",
       "date": "04 March 2026",
       "status": "Active"
+    },
+    {
+      "id": "15",
+      "name": "Abdullah Al Mamun",
+      "dept": "AME Avionics",
+      "subject": "Effect of Dihedral Angle on Lateral Stability",
+      "pdfLink": "https://drive.google.com/file/d/195fH9W3pRdbi3MVfOxq5_5oFDe19aUuf/view",
+      "date": "06 March 2026",
+      "status": "Active"
+    },
+    {
+      "id": "16",
+      "name": "Abdur Rahman Noywn",
+      "dept": "AE Aerospace",
+      "subject": "Aerodynamic Stall Mechanism in Fixed-Wing UAV",
+      "pdfLink": "https://drive.google.com/file/d/1-_wzh0Rtv5uEPdRubxW1uEFkJa2uCDf8/view",
+      "date": "06 March 2026",
+      "status": "Active"
+    },
+    {
+      "id": "17",
+      "name": "Hasan Parvej Aurko",
+      "dept": "AE Aerospace",
+      "subject": "Drag Coefficient Prediction for Model Aircraft",
+      "pdfLink": "https://drive.google.com/file/d/1P_S1__Bmvcyw855IioNpflhcibPy4R_U/view",
+      "date": "06 March 2026",
+      "status": "Active"
+    },
+    {
+      "id": "18",
+      "name": "Mohine Rana Soria",
+      "dept": "AE Aerospace",
+      "subject": "Aerodynamic Benefits of Tapered Wing Planform",
+      "pdfLink": "https://drive.google.com/file/d/1yfMuJwxy5M8bLbLvgA10hQeyddwTE_m9/view",
+      "date": "06 March 2026",
+      "status": "Active"
+    },
+    {
+      "id": "19",
+      "name": "Sahran Al Munabbir",
+      "dept": "AME Aerospace",
+      "subject": "Wing Twist and Stall Delay Analysis",
+      "pdfLink": "https://drive.google.com/file/d/1PvjpD4tXm1ide6xgd-FRHSYbwsGSJ_8P/view",
+      "date": "06 March 2026",
+      "status": "Active"
+    },
+    {
+      "id": "20",
+      "name": "Nafiz Rayhan",
+      "dept": "AME Avionics",
+      "subject": "Lift Coefficient Variation with Airfoil Geometry",
+      "pdfLink": "https://drive.google.com/file/d/1sDb0k53QQBZ4MKqy3ZGbcuz5x9s46gvu/view",
+      "date": "06 March 2026",
+      "status": "Active"
+    },
+    {
+      "id": "21",
+      "name": "Talha Jubayer",
+      "dept": "AME Aerospace",
+      "subject": "Effect of Angle of Attack on Lift Coefficient",
+      "pdfLink": "https://drive.google.com/file/d/12ZElW1Z-BGir7OvVyxb8X-qtSM5N3-3K/view",
+      "date": "06 March 2026",
+      "status": "Active"
+    },
+    {
+      "id": "22",
+      "name": "Mohammad Labib Mahboob",
+      "dept": "AE Aerospace",
+      "subject": "IMU Sensor Integration in UAV Navigation",
+      "pdfLink": "https://drive.google.com/file/d/1V9AgOjNrIxrgcJzMc0xGgi32L7LMWZTR/view",
+      "date": "06 March 2026",
+      "status": "Active"
     }
   ]
 }

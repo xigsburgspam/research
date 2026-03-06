@@ -453,10 +453,14 @@
             // Sorting logic
             filteredSubmissions.sort((a, b) => {
                 switch (sortBy) {
-                    case 'latest':
-                        return new Date(b.date) - new Date(a.date);
-                    case 'oldest':
-                        return new Date(a.date) - new Date(b.date);
+                    case 'latest': {
+                        const dateDiff = new Date(b.date) - new Date(a.date);
+                        return dateDiff === 0 ? parseInt(b.id) - parseInt(a.id) : dateDiff;
+                    }
+                    case 'oldest': {
+                        const dateDiff = new Date(a.date) - new Date(b.date);
+                        return dateDiff === 0 ? parseInt(a.id) - parseInt(b.id) : dateDiff;
+                    }
                     case 'subject-az':
                         return a.subject.localeCompare(b.subject);
                     case 'subject-za':
