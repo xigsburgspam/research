@@ -197,6 +197,33 @@
       "pdfLink": "https://drive.google.com/file/d/1V9AgOjNrIxrgcJzMc0xGgi32L7LMWZTR/view",
       "date": "06 March 2026",
       "status": "Active"
+    },
+    {
+      "id": "23",
+      "name": "Nafiz Rayhan",
+      "dept": "AME Avionics",
+      "subject": "High-Lift Airfoil Design",
+      "pdfLink": "https://drive.google.com/file/d/1N3oN2TnFrW1MAoyFYDNvwzTvICol2wFz/view",
+      "date": "07 March 2026",
+      "status": "Active"
+    },
+    {
+      "id": "24",
+      "name": "Abdur Rahman Noywn",
+      "dept": "AE Aerospace",
+      "subject": "Application of Bernoulli’s Theorem in Aircraft",
+      "pdfLink": "https://drive.google.com/file/d/16tOiKcAphIWZb6nzvu9XT3xY6f6Chrmp/view",
+      "date": "07 March 2026",
+      "status": "Active"
+    },
+    {
+      "id": "25",
+      "name": "Hasan Parvej Aurko",
+      "dept": "AE Aerospace",
+      "subject": "Parasitic Drag Components in Small Aircraft",
+      "pdfLink": "https://drive.google.com/file/d/1h45FKuN8RzZKU5oR9odX94xTsNAwCLim/view",
+      "date": "07 March 2026",
+      "status": "Active"
     }
   ]
 }
