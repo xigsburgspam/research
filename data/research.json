@@ -224,6 +224,24 @@
       "pdfLink": "https://drive.google.com/file/d/1h45FKuN8RzZKU5oR9odX94xTsNAwCLim/view",
       "date": "07 March 2026",
       "status": "Active"
+    },
+    {
+      "id": "26",
+      "name": "Talha Jubayer",
+      "dept": "AME Aerospace",
+      "subject": "ESC Programming and Calibration Techniques",
+      "pdfLink": "https://drive.google.com/file/d/10__T_Y70xuqHWNTdYiyZ2lJgf7Gkq5q3/view?usp=sharing",
+      "date": "07 March 2026",
+      "status": "Active"
+    },
+    {
+      "id": "27",
+      "name": "Sahran Al Munabbir",
+      "dept": "AME Aerospace",
+      "subject": "Bernoulli’s Theorem in UAV",
+      "pdfLink": "https://drive.google.com/file/d/1GDSJDJx7lafYP6DiNWWafSAXoUb1AjnL/view",
+      "date": "07 March 2026",
+      "status": "Active"
     }
   ]
 }
