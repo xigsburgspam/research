@@ -329,6 +329,7 @@
         <i data-lucide="arrow-up" size="24"></i>
     </button>
 
+    <script src="data/research.js"></script>
     <script>
         // Theme Management
         const themeToggle = document.getElementById('themeToggle');
@@ -419,12 +420,10 @@
                 // Apply reveal observer to header elements
                 document.querySelectorAll('.animate-reveal').forEach(el => revealObserver.observe(el));
                 
-                // Fetch data from JSON file
-                const response = await fetch('/data/research.json');
-                if (!response.ok) throw new Error('Failed to load research data');
+                // Use data from included JS file
+                if (!window.RESEARCH_DATA) throw new Error('Failed to load research data');
                 
-                const data = await response.json();
-                submissions = data.papers || [];
+                submissions = window.RESEARCH_DATA.papers || [];
                 
                 applyFilters();
             } catch (error) {
