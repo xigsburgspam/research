@@ -242,6 +242,42 @@
       "pdfLink": "https://drive.google.com/file/d/1GDSJDJx7lafYP6DiNWWafSAXoUb1AjnL/view",
       "date": "07 March 2026",
       "status": "Active"
+    },
+    {
+      "id": "28",
+      "name": "Mohammad Labib Mahboob",
+      "dept": "AE Aerospace",
+      "subject": "Glide Ratio Optimization for UAV Endurance",
+      "pdfLink": "https://drive.google.com/file/d/1RPI1FL5E-o3D04rYqW4RsCi91oSNC_17/view",
+      "date": "07 March 2026",
+      "status": "Active"
+    },
+    {
+      "id": "29",
+      "name": "Talha Jubayer",
+      "dept": "AME Aerospace",
+      "subject": "Wingtip Vortex Formation and Induced Drag",
+      "pdfLink": "https://drive.google.com/file/d/1TY52ab8qKWgC1wm3UQgHiAXsP2rdupLY/view?usp=sharing",
+      "date": "11 March 2026",
+      "status": "Active"
+    },
+    {
+      "id": "30",
+      "name": "Hasan Parvej Aurko",
+      "dept": "AE Aerospace",
+      "subject": "Wing Loading Optimization for UAV Performance",
+      "pdfLink": "https://drive.google.com/file/d/1-AuqFEx9Qx_cWyqrM2VbzNhaoX1jEZK9/view",
+      "date": "11 March 2026",
+      "status": "Active"
+    },
+    {
+      "id": "31",
+      "name": "Nafiz Rayhan",
+      "dept": "AME Avionics",
+      "subject": "REYNOLDS NUMBER EFFECT on AIRCRAFT PERFORMANCE",
+      "pdfLink": "https://drive.google.com/file/d/19eh6GtEwE9T6xvCeVi6wZQfwkwKZzDqz/view",
+      "date": "11 March 2026",
+      "status": "Active"
     }
   ]
 }
