@@ -504,39 +504,51 @@
             paginationInfo.textContent = `Showing ${startIdx}-${endIdx} of ${filteredSubmissions.length} papers`;
             
             // Build controls
-            let controlsHTML = '';
+            let controlsHTML = '<div class="inline-flex items-center p-1.5 glass rounded-2xl shadow-sm border border-stone-200/50 dark:border-stone-800/50">';
             
             // Prev button
             controlsHTML += `
                 <button onclick="changePage(${currentPage - 1})" 
-                        class="px-4 py-2 rounded-xl glass text-sm font-medium transition-all ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95 text-stone-700 dark:text-stone-300'}"
+                        class="flex items-center justify-center px-3 sm:px-4 h-10 rounded-xl text-sm font-semibold transition-all ${currentPage === 1 ? 'opacity-40 cursor-not-allowed text-stone-400' : 'hover:bg-stone-200/50 dark:hover:bg-stone-800/50 text-stone-700 dark:text-stone-300 active:scale-95'}"
                         ${currentPage === 1 ? 'disabled' : ''}>
-                    Prev
+                    <svg class="w-4 h-4 sm:mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    <span class="hidden sm:inline">Prev</span>
                 </button>
             `;
             
             // Page numbers (Scrollable)
-            controlsHTML += `<div id="pageNumbersContainer" class="flex gap-2 overflow-x-auto snap-x scroll-smooth px-1 py-1 scrollbar-hide" style="max-width: 144px;">`;
+            controlsHTML += `
+                <div class="relative flex items-center mx-1 sm:mx-2">
+                    <div id="pageNumbersContainer" 
+                         class="flex gap-1.5 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide w-[140px]"
+                         style="mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); padding: 0 8px;">
+            `;
             for (let i = 1; i <= totalPages; i++) {
                 const isActive = i === currentPage;
                 controlsHTML += `
                     <button onclick="changePage(${i})" 
                             id="page-btn-${i}"
-                            class="flex-shrink-0 w-10 h-10 rounded-xl text-sm font-bold transition-all snap-center ${isActive ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30' : 'glass text-stone-600 dark:text-stone-400 hover:scale-105 active:scale-95'}">
+                            class="flex-shrink-0 w-10 h-10 rounded-xl text-sm font-bold transition-all snap-center ${isActive ? 'bg-blue-500 text-white shadow-md shadow-blue-500/20' : 'text-stone-600 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 active:scale-95'}">
                         ${i}
                     </button>
                 `;
             }
-            controlsHTML += `</div>`;
+            controlsHTML += `
+                    </div>
+                </div>
+            `;
             
             // Next button
             controlsHTML += `
                 <button onclick="changePage(${currentPage + 1})" 
-                        class="px-4 py-2 rounded-xl glass text-sm font-medium transition-all ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95 text-stone-700 dark:text-stone-300'}"
+                        class="flex items-center justify-center px-3 sm:px-4 h-10 rounded-xl text-sm font-semibold transition-all ${currentPage === totalPages ? 'opacity-40 cursor-not-allowed text-stone-400' : 'hover:bg-stone-200/50 dark:hover:bg-stone-800/50 text-stone-700 dark:text-stone-300 active:scale-95'}"
                         ${currentPage === totalPages ? 'disabled' : ''}>
-                    Next
+                    <span class="hidden sm:inline">Next</span>
+                    <svg class="w-4 h-4 sm:ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </button>
             `;
+            
+            controlsHTML += '</div>';
             
             paginationControls.innerHTML = controlsHTML;
             
