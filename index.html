@@ -23,6 +23,13 @@
         }
     </script>
     <style>
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
         @keyframes shimmer {
             0% { background-position: -200% 0; }
             100% { background-position: 200% 0; }
@@ -508,16 +515,19 @@
                 </button>
             `;
             
-            // Page numbers
+            // Page numbers (Scrollable)
+            controlsHTML += `<div id="pageNumbersContainer" class="flex gap-2 overflow-x-auto snap-x scroll-smooth px-1 py-1 scrollbar-hide" style="max-width: 144px;">`;
             for (let i = 1; i <= totalPages; i++) {
                 const isActive = i === currentPage;
                 controlsHTML += `
                     <button onclick="changePage(${i})" 
-                            class="w-10 h-10 rounded-xl text-sm font-bold transition-all ${isActive ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30' : 'glass text-stone-600 dark:text-stone-400 hover:scale-105 active:scale-95'}">
+                            id="page-btn-${i}"
+                            class="flex-shrink-0 w-10 h-10 rounded-xl text-sm font-bold transition-all snap-center ${isActive ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/30' : 'glass text-stone-600 dark:text-stone-400 hover:scale-105 active:scale-95'}">
                         ${i}
                     </button>
                 `;
             }
+            controlsHTML += `</div>`;
             
             // Next button
             controlsHTML += `
@@ -529,6 +539,16 @@
             `;
             
             paginationControls.innerHTML = controlsHTML;
+            
+            // Scroll active button into view
+            setTimeout(() => {
+                const activeBtn = document.getElementById(`page-btn-${currentPage}`);
+                const container = document.getElementById('pageNumbersContainer');
+                if (activeBtn && container) {
+                    const scrollLeft = activeBtn.offsetLeft - container.offsetLeft - (container.clientWidth / 2) + (activeBtn.clientWidth / 2);
+                    container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+                }
+            }, 50);
         }
 
         // Render Cards
