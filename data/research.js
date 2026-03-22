@@ -3,7 +3,7 @@ window.RESEARCH_DATA = {
     {
       "id": "1",
       "name": "Talha Jubayer",
-      "dept": "AME Aerospace",
+      "dept": "AE Avionics",
       "subject": "Anatomy of BLDC Motors",
       "pdfLink": "https://drive.google.com/file/d/1jmiFtLQqqW54BbuDEYy7c-obYvhJEAiY/view?usp=drive_link",
       "date": "02 March 2026",
@@ -57,7 +57,7 @@ window.RESEARCH_DATA = {
     {
       "id": "7",
       "name": "Talha Jubayer",
-      "dept": "AME Aerospace",
+      "dept": "AE Avionics",
       "subject": "Aerodynamic Efficiency of Propellers",
       "pdfLink": "https://drive.google.com/file/d/1t9oKj1p1U0odlqigm3brt3LJB3arUmgD/view",
       "date": "03 March 2026",
@@ -111,7 +111,7 @@ window.RESEARCH_DATA = {
     {
       "id": "13",
       "name": "Talha Jubayer",
-      "dept": "AME Aerospace",
+      "dept": "AE Avionics",
       "subject": "Functional Analysis of ESC Modules in UAV",
       "pdfLink": "https://drive.google.com/file/d/1j-vPIuvI2YpE3ALyvu3JsArg1b55gbP1/view",
       "date": "04 March 2026",
@@ -183,7 +183,7 @@ window.RESEARCH_DATA = {
     {
       "id": "21",
       "name": "Talha Jubayer",
-      "dept": "AME Aerospace",
+      "dept": "AE Avionics",
       "subject": "Effect of Angle of Attack on Lift Coefficient",
       "pdfLink": "https://drive.google.com/file/d/12ZElW1Z-BGir7OvVyxb8X-qtSM5N3-3K/view",
       "date": "06 March 2026",
@@ -228,7 +228,7 @@ window.RESEARCH_DATA = {
     {
       "id": "26",
       "name": "Talha Jubayer",
-      "dept": "AME Aerospace",
+      "dept": "AE Avionics",
       "subject": "ESC Programming and Calibration Techniques",
       "pdfLink": "https://drive.google.com/file/d/10__T_Y70xuqHWNTdYiyZ2lJgf7Gkq5q3/view?usp=sharing",
       "date": "07 March 2026",
@@ -255,7 +255,7 @@ window.RESEARCH_DATA = {
     {
       "id": "29",
       "name": "Talha Jubayer",
-      "dept": "AME Aerospace",
+      "dept": "AE Avionics",
       "subject": "Wingtip Vortex Formation and Induced Drag",
       "pdfLink": "https://drive.google.com/file/d/1TY52ab8qKWgC1wm3UQgHiAXsP2rdupLY/view?usp=sharing",
       "date": "11 March 2026",
