@@ -199,7 +199,7 @@ export default function App() {
   }, [currentPage]);
 
   return (
-    <div className="relative min-h-screen font-sans bg-gradient-to-b from-[#0B0D14] via-[#050608] to-black text-stone-100 overflow-x-hidden selection:bg-white selection:text-[#0B0D14] pt-20">
+    <div className="relative min-h-screen font-sans bg-gradient-to-b from-[#0B0D14] via-[#050608] to-black text-stone-100 overflow-x-hidden selection:bg-white selection:text-[#0B0D14] pt-28">
       
       {/* Scroll Progress Bar */}
       <div 
@@ -219,81 +219,85 @@ export default function App() {
         <div className="absolute inset-0 bg-grid text-stone-800 opacity-20" />
       </div>
 
-      {/* Header and Navbar */}
-      <nav className="fixed w-full top-0 left-0 z-50 transition-all duration-500 border-b border-white/12 bg-black/35 backdrop-blur-3xl shadow-[0_12px_45px_rgba(0,0,0,0.7)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <button 
-              onClick={() => setIsGravityMode(!isGravityMode)}
-              className={`px-6 py-2.5 rounded-2xl text-xs font-bold uppercase tracking-[0.2em] hover:scale-[1.03] transition-all active:scale-95 flex items-center gap-2.5 border backdrop-blur-md shadow-lg ${
-                isGravityMode 
-                  ? "bg-blue-500/20 border-blue-500/50 text-blue-200 shadow-[0_0_20px_rgba(59,130,246,0.3)]" 
-                  : "bg-white/[0.03] hover:bg-white/[0.08] border-white/10 hover:border-white/20 text-stone-200 hover:text-white shadow-[0_8px_32px_0_rgba(0,0,0,0.4)]"
-              }`}
-            >
-              <Magnet size={14} className={isGravityMode ? "animate-bounce" : ""} />
-              <span>{isGravityMode ? "Disable 0 Gravity" : "Enable 0 Gravity"}</span>
-            </button>
+      {/* Floating Header and Navbar */}
+      <div className="fixed w-full top-4 left-0 right-0 z-50 px-3 sm:px-6 lg:px-8">
+        <nav className="max-w-7xl mx-auto rounded-3xl border border-white/10 bg-[#0B0D14]/50 backdrop-blur-3xl shadow-[0_20px_50px_-10px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(255,255,255,0.08)] transition-all duration-500">
+          <div className="px-3 sm:px-8 h-20 flex items-center justify-between">
+            <div className="flex items-center gap-1.5 sm:gap-3">
+              <span className="font-serif font-bold text-sm sm:text-lg md:text-xl tracking-wider text-white select-none">
+                <span className="text-blue-500 font-extrabold mr-1">X</span>
+                <span className="hidden sm:inline">IRO GRAVITY</span>
+                <span className="sm:hidden inline">IRO G.</span>
+              </span>
+            </div>
+            <div className="flex items-center gap-2 sm:gap-4">
+              <button 
+                onClick={() => setIsGravityMode(!isGravityMode)}
+                className={`px-3 sm:px-5 py-2 sm:py-2.5 rounded-2xl text-[10px] font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] hover:scale-[1.03] transition-all active:scale-95 flex items-center gap-1.5 sm:gap-2 border shadow-lg ${
+                  isGravityMode 
+                    ? "bg-blue-600/35 border-blue-400/40 text-blue-200 shadow-[0_0_25px_rgba(59,130,246,0.4)]" 
+                    : "bg-white/[0.02] hover:bg-white/[0.08] border-white/10 hover:border-white/20 text-stone-200 hover:text-white"
+                }`}
+              >
+                <Magnet size={13} className={isGravityMode ? "animate-bounce text-blue-400" : "text-stone-400"} />
+                <span className="hidden sm:inline">{isGravityMode ? "Disable 0-G" : "Enable 0-G"}</span>
+                <span className="sm:hidden inline">{isGravityMode ? "0-G On" : "0-G Off"}</span>
+              </button>
+              <div className="flex items-center p-0.5 sm:p-1 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-md">
+                <button 
+                  onClick={() => setActivePage("home")}
+                  className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[10px] font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all duration-300 ${
+                    activePage === "home" 
+                      ? "bg-white/10 text-white border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.2)]" 
+                      : "text-stone-400 hover:text-stone-200"
+                  }`}
+                >
+                  Home
+                </button>
+                <button 
+                  onClick={() => setActivePage("about")}
+                  className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-[10px] font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all duration-300 ${
+                    activePage === "about" 
+                      ? "bg-white/10 text-white border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.2)]" 
+                      : "text-stone-400 hover:text-stone-200"
+                  }`}
+                >
+                  About
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center p-1.5 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
-            <button 
-              onClick={() => setActivePage("home")}
-              className={`px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-[0.2em] transition-all duration-350 hover:scale-[1.02] ${
-                activePage === "home" 
-                  ? "bg-white/10 text-white border border-white/15 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.2)]" 
-                  : "text-stone-400 hover:text-stone-100"
-              }`}
-            >
-              Home
-            </button>
-            <button 
-              onClick={() => setActivePage("about")}
-              className={`px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-[0.2em] transition-all duration-350 hover:scale-[1.02] ${
-                activePage === "about" 
-                  ? "bg-white/10 text-white border border-white/15 shadow-[0_4px_12px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.2)]" 
-                  : "text-stone-400 hover:text-stone-100"
-              }`}
-            >
-              About
-            </button>
-          </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
 
       {/* Pages Frame rendering */}
       {activePage === "home" ? (
         <>
           {/* Home Hero Header */}
-          <div className="relative w-full border-b border-white/5 mb-24 min-h-[85vh] flex items-center justify-center -mt-20">
-            <div className="absolute inset-0 w-full h-full overflow-hidden">
-              <ScrollVideoBackground />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0B0D14]"></div>
-            </div>
-            
-            <header className="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center select-none pt-32 pb-20">
-              <div className="gravity-element transition-transform">
-                <div className="relative inline-flex p-[1px] mb-8 rounded-full overflow-hidden group">
+          <div className="relative w-full border-b border-white/5 mb-12 -mt-28">
+            <ScrollVideoBackground 
+              page="home"
+              badge={
+                <div className="relative inline-flex p-[1px] rounded-full overflow-hidden group">
                   {/* Rotating Neon Border */}
                   <div className="absolute inset-[-200%] bg-[conic-gradient(from_0deg,transparent_0%,#3b82f6_25%,transparent_50%,#3b82f6_75%,transparent_100%)] animate-rotate-border"></div>
                   
                   {/* Badge Label */}
                   <div className="relative inline-flex items-center gap-2 px-5 py-2 glass text-white rounded-full text-[10px] font-bold uppercase tracking-[0.3em] overflow-hidden">
-                    <span className="relative z-10">Levitate Beyond Infinity</span>
+                    <span className="relative z-10 text-blue-200">Levitate Beyond Infinity</span>
                   </div>
                 </div>
-              </div>
-              
-              <h1 className="text-6xl md:text-9xl font-serif font-bold mb-10 tracking-tighter leading-[0.85] text-white flex flex-col items-center gap-2 drop-shadow-lg">
-                <span className="gravity-element transition-transform inline-block">Team Xiro</span>
-                <span className="italic text-stone-300 hover:text-stone-100 transition-colors duration-700 cursor-default gravity-element transition-transform inline-block">
-                  Gravity
-                </span>
-              </h1>
-              
-              <p className="text-stone-200 drop-shadow-md text-xl md:text-3xl max-w-3xl mx-auto leading-relaxed font-medium tracking-tight gravity-element transition-transform">
-                An elite repository of pioneering research and technical breakthroughs, dedicated to pushing the boundaries of human knowledge.
-              </p>
-            </header>
+              }
+              title={
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold tracking-tighter leading-[0.9] text-white flex flex-col gap-2">
+                  <span className="gravity-element transition-transform inline-block tracking-tight text-white/95">Team Xiro</span>
+                  <span className="italic text-blue-400 hover:text-blue-300 transition-colors duration-700 cursor-default gravity-element transition-transform inline-block font-medium">
+                    Gravity
+                  </span>
+                </h1>
+              }
+              subtitle="An elite repository of pioneering research and technical breakthroughs, dedicated to pushing the boundaries of human knowledge from the Aviation and Aerospace University of Bangladesh."
+            />
           </div>
 
           {/* Main papers browser and engine */}
@@ -429,21 +433,31 @@ export default function App() {
       ) : (
         /* About active view */
         <>
-          <div className="relative w-full border-b border-white/5 mb-24 min-h-[75vh] flex items-center justify-center -mt-20">
-            <div className="absolute inset-0 w-full h-full overflow-hidden">
-              <ScrollVideoBackground />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#0B0D14]"></div>
-            </div>
-            
-            <header className="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center select-none pt-32 pb-24">
-              <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 tracking-tighter text-white flex flex-col items-center gap-2 drop-shadow-lg">
-                <span className="gravity-element transition-transform inline-block">About</span>
-                <span className="italic text-stone-300 gravity-element transition-transform inline-block">Team Xiro Gravity</span>
-              </h1>
-              <p className="text-stone-200 drop-shadow-md text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-medium gravity-element transition-transform">
-                Student-driven innovation from the Aviation and Aerospace University of Bangladesh.
-              </p>
-            </header>
+          {/* About Hero Header */}
+          <div className="relative w-full border-b border-white/5 mb-12 -mt-28">
+            <ScrollVideoBackground 
+              page="about"
+              badge={
+                <div className="relative inline-flex p-[1px] rounded-full overflow-hidden group">
+                  {/* Rotating Neon Border */}
+                  <div className="absolute inset-[-200%] bg-[conic-gradient(from_0deg,transparent_0%,#3b82f6_25%,transparent_50%,#3b82f6_75%,transparent_100%)] animate-rotate-border"></div>
+                  
+                  {/* Badge Label */}
+                  <div className="relative inline-flex items-center gap-2 px-5 py-2 glass text-white rounded-full text-[10px] font-bold uppercase tracking-[0.3em] overflow-hidden">
+                    <span className="relative z-10 text-blue-200">Levitate Beyond Infinity</span>
+                  </div>
+                </div>
+              }
+              title={
+                <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold tracking-tighter leading-[0.9] text-white flex flex-col gap-2">
+                  <span className="gravity-element transition-transform inline-block tracking-tight text-white/95">About</span>
+                  <span className="italic text-blue-400 hover:text-blue-300 transition-colors duration-700 cursor-default gravity-element transition-transform inline-block font-medium">
+                    Team Xiro Gravity
+                  </span>
+                </h1>
+              }
+              subtitle="Student-driven innovation from the Aviation and Aerospace University of Bangladesh. Specializing in advanced mechanics, celestial flight paths, and pioneering aerospace research."
+            />
           </div>
 
           <main className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">

@@ -320,7 +320,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   { name: "Talha Jubayer", role: "AE Aerospace", fb: "https://www.facebook.com/xigsburg", subtitle: "Team Lead", streakChamp: true },
   { name: "Sahran Al Munabbir", role: "AME Aerospace", fb: "https://www.facebook.com/sahran1234" },
   { name: "Abdur Rahman Noywn", role: "AE Aerospace", fb: "https://www.facebook.com/abdurrahmannaywn" },
-  { name: "Mohammad Labib Mahboob", role: "AE Aerospace", fb: "https://www.facebook.com/mohammad.labib.mahboob" },
+  { name: "Mohammad Labib Mahboob", role: "AE Aerospace", fb: "https://www.facebook.com/mohammad.labib.mahboob", subtitle: "EX" },
   { name: "Hasan Parvej Aurko", role: "AE Aerospace", fb: "https://www.facebook.com/Hasan.Parvej.Aurko", subtitle: "Best Writer", streakChamp: true },
   { name: "Nafiz Rayhan", role: "AME Avionics", fb: "https://www.facebook.com/profile.php?id=100068947070150", streakChamp: true },
   { name: "Mohammad Tashik Sadman", role: "AME Aerospace", fb: "https://www.facebook.com/tashik.sadman", subtitle: "EX" },
