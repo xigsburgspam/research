@@ -30,22 +30,49 @@ export const ScrollVideoBackground: React.FC<ScrollVideoBackgroundProps> = ({
   // Initialize and check metadata
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video) {
+      setIsReady(true);
+      return;
+    }
 
+    let isDone = false;
     const handleLoadedMetadata = () => {
+      if (isDone) return;
+      isDone = true;
       setIsReady(true);
       // Explicitly set the initial playback time to 0 to make sure the user sees the start frame immediately
-      video.currentTime = 0;
+      try {
+        video.currentTime = 0;
+      } catch (e) {
+        console.warn("Setting currentTime failed: ", e);
+      }
     };
 
     video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    video.addEventListener("loadeddata", handleLoadedMetadata);
+    video.addEventListener("canplay", handleLoadedMetadata);
+    video.addEventListener("canplaythrough", handleLoadedMetadata);
+    video.addEventListener("error", handleLoadedMetadata);
 
     if (video.readyState >= 1) {
       handleLoadedMetadata();
     }
 
+    // Safety timeout: transition after 1.5 seconds regardless of network/loading speed to prevent soft-locks
+    const safetyTimer = setTimeout(() => {
+      if (!isDone) {
+        console.log("Loading overlay released by safety timeout.");
+        handleLoadedMetadata();
+      }
+    }, 1500);
+
     return () => {
       video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      video.removeEventListener("loadeddata", handleLoadedMetadata);
+      video.removeEventListener("canplay", handleLoadedMetadata);
+      video.removeEventListener("canplaythrough", handleLoadedMetadata);
+      video.removeEventListener("error", handleLoadedMetadata);
+      clearTimeout(safetyTimer);
     };
   }, []);
 
