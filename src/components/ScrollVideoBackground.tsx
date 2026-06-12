@@ -259,7 +259,7 @@ export const ScrollVideoBackground: React.FC<ScrollVideoBackgroundProps> = ({
                 {/* Embedded Video Background */}
                 <video
                   ref={videoRef}
-                  src="/videos/output.mp4"
+                  src="/output.mp4"
                   className="w-full h-full object-cover bg-transparent"
                   muted
                   playsInline
