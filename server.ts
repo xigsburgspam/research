@@ -13,6 +13,7 @@ async function startServer() {
   });
 
   // Serve background videos directly
+  app.use("/videos", express.static(path.resolve(process.cwd(), "public", "videos")));
   app.use("/videos", express.static(path.resolve(process.cwd(), "videos")));
 
   // Direct API route for submissions
